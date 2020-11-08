@@ -1,0 +1,919 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{TCA\_sample\_check}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{library}\PY{p}{(}glmnet\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}matrixStats\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}abind\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}pracma\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}matrixcalc\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}TCA\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}MCMCpack\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Loading required package: Matrix
+Loading required package: foreach
+Loaded glmnet 2.0-18
+
+
+Attaching package: ‘pracma’
+
+The following objects are masked from ‘package:Matrix’:
+
+    expm, lu, tril, triu
+
+Loading required package: coda
+Loading required package: MASS
+\#\#
+\#\# Markov Chain Monte Carlo Package (MCMCpack)
+\#\# Copyright (C) 2003-2019 Andrew D. Martin, Kevin M. Quinn, and Jong Hee Park
+\#\#
+\#\# Support provided by the U.S. National Science Foundation
+\#\# (Grants SES-0350646 and SES-0350613)
+\#\#
+
+Attaching package: ‘MCMCpack’
+
+The following object is masked from ‘package:matrixcalc’:
+
+    vech
+
+The following object is masked from ‘package:pracma’:
+
+    procrustes
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} summary\PYZus{}statistics \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}mdl\PY{p}{,}train\PYZus{}X\PY{p}{,}test\PYZus{}X\PY{p}{,}train\PYZus{}c1\PY{p}{,}test\PYZus{}c1\PY{p}{,}
+                                        train\PYZus{}G\PY{p}{,}test\PYZus{}G\PY{p}{,}train\PYZus{}Z\PY{p}{,}test\PYZus{}Z\PY{p}{,}\PY{k+kp}{beta}\PY{p}{,}
+                                        gamma\PYZus{}c1\PY{p}{,}gamma\PYZus{}c2\PY{p}{,}model\PY{o}{=}\PY{l+m}{1}\PY{p}{)}\PY{p}{\PYZob{}}
+             \PY{c+c1}{\PYZsh{} TCA estimation \PYZam{} parameters}
+             Z\PYZus{}hat\PYZus{}tca \PY{o}{=} tensor\PY{p}{(}train\PYZus{}G\PY{p}{,}mdl\PY{p}{,}log\PYZus{}file\PY{o}{=}\PY{k+kc}{NULL}\PY{p}{,}verbose\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}debug\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{)}
+             rmse\PYZus{}tca \PY{o}{=} \PY{k+kp}{t}\PY{p}{(}\PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}Z\PYZus{}hat\PYZus{}tca\PY{p}{)}\PY{p}{,}
+                                             \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{sqrt}\PY{p}{(}\PY{k+kp}{sum}\PY{p}{(}\PY{p}{(}Z\PYZus{}hat\PYZus{}tca\PY{p}{[[}x\PY{p}{]]}\PY{o}{\PYZhy{}}train\PYZus{}Z\PY{p}{[}\PY{p}{,}x\PY{p}{]}\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{)}\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}train\PYZus{}Z\PY{p}{[}\PY{p}{,}x\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             Z\PYZus{}hat\PYZus{}cor\PYZus{}tca \PY{o}{=} \PY{k+kp}{sapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}Z\PYZus{}hat\PYZus{}tca\PY{p}{)}\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} cor\PY{p}{(}\PY{k+kp}{unlist}\PY{p}{(}Z\PYZus{}hat\PYZus{}tca\PY{p}{[}x\PY{p}{]}\PY{p}{)}\PY{p}{,}train\PYZus{}Z\PY{p}{[}\PY{p}{,}x\PY{p}{]}\PY{p}{)}\PY{p}{)}
+             cell\PYZus{}type \PY{o}{=} \PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}
+             \PY{k+kr}{if}\PY{p}{(}model\PY{o}{==}\PY{l+m}{1}\PY{p}{)}\PY{p}{\PYZob{}}
+                 tca\PYZus{}beta \PY{o}{=} \PY{k+kp}{t}\PY{p}{(}\PY{k+kt}{matrix}\PY{p}{(}mdl\PY{o}{\PYZdl{}}gammas\PYZus{}hat\PY{p}{[}\PY{p}{,}\PY{k+kp}{grepl}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZus{}SNP\PYZdq{}}\PY{p}{,}\PY{k+kp}{colnames}\PY{p}{(}mdl\PY{o}{\PYZdl{}}gammas\PYZus{}hat\PY{p}{)}\PY{p}{)}\PY{p}{]}\PY{p}{,}ncol\PY{o}{=}cell\PYZus{}type\PY{p}{)}\PY{p}{)}
+                 beta\PYZus{}hat\PYZus{}cor\PYZus{}tca \PY{o}{=} \PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} 
+                     cor\PY{p}{(}\PY{k+kp}{beta}\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{p}{,}mdl\PY{o}{\PYZdl{}}gammas\PYZus{}hat\PY{p}{[}\PY{p}{,}\PY{k+kp}{grepl}\PY{p}{(}\PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Cell\PYZus{}type\PYZdq{}}\PY{p}{,}x\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{.G\PYZdq{}}\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{,}\PY{k+kp}{colnames}\PY{p}{(}mdl\PY{o}{\PYZdl{}}gammas\PYZus{}hat\PY{p}{)}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{p}{)}        
+             \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}} \PY{c+c1}{\PYZsh{} model 2 does not predict beta for snps}
+                 tca\PYZus{}beta \PY{o}{=} \PY{k+kc}{NULL}
+                 beta\PYZus{}hat\PYZus{}cor\PYZus{}tca \PY{o}{=} \PY{k+kc}{NULL}
+             \PY{p}{\PYZcb{}}
+             gamma\PYZus{}hat\PYZus{}cor\PYZus{}tca \PY{o}{=} cor\PY{p}{(}\PY{k+kt}{array}\PY{p}{(}gamma\PYZus{}c1\PY{p}{)}\PY{p}{,}
+                                 mdl\PY{o}{\PYZdl{}}gammas\PYZus{}hat\PY{p}{[}\PY{p}{,}\PY{k+kp}{grepl}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{male|smok|age\PYZsq{}}\PY{p}{,} \PY{k+kp}{colnames}\PY{p}{(}mdl\PY{o}{\PYZdl{}}gammas\PYZus{}hat\PY{p}{)}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+             \PY{k+kr}{if}\PY{p}{(}model\PY{o}{==}\PY{l+m}{1}\PY{p}{)}\PY{p}{\PYZob{}}
+                 pred \PY{o}{=} \PY{k+kp}{cbind}\PY{p}{(}train\PYZus{}X\PY{p}{,}train\PYZus{}c1\PY{p}{)}
+                 test\PYZus{}pred \PY{o}{=} \PY{k+kp}{cbind}\PY{p}{(}test\PYZus{}X\PY{p}{,}test\PYZus{}c1\PY{p}{)}        
+             \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}} \PY{c+c1}{\PYZsh{} model 2 does not use train\PYZus{}X/test\PYZus{}X as C1}
+                 pred \PY{o}{=} train\PYZus{}c1
+                 test\PYZus{}pred \PY{o}{=} test\PYZus{}c1
+             \PY{p}{\PYZcb{}}
+             \PY{c+c1}{\PYZsh{} TCA parameter direct estimation \PYZlt{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZgt{} C1 \PYZam{} X}
+             Z\PYZus{}hat\PYZus{}train\PYZus{}second\PYZus{}eq\PYZus{}tca \PY{o}{=} \PY{k+kp}{sapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} pred \PY{o}{\PYZpc{}*\PYZpc{}} mdl\PY{o}{\PYZdl{}}gammas\PYZus{}hat\PY{p}{[}\PY{p}{,}\PY{p}{(}\PY{p}{(}x\PY{l+m}{\PYZhy{}1}\PY{p}{)}\PY{o}{*}\PY{k+kp}{dim}\PY{p}{(}pred\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}\PY{p}{(}x\PY{o}{*}\PY{k+kp}{dim}\PY{p}{(}pred\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+             Z\PYZus{}hat\PYZus{}train\PYZus{}second\PYZus{}eq\PYZus{}cor\PYZus{}tca \PY{o}{=} \PY{k+kp}{diag}\PY{p}{(}cor\PY{p}{(}train\PYZus{}Z\PY{p}{,}Z\PYZus{}hat\PYZus{}train\PYZus{}second\PYZus{}eq\PYZus{}tca\PY{p}{)}\PY{p}{)}
+             Z\PYZus{}hat\PYZus{}test\PYZus{}second\PYZus{}eq\PYZus{}tca \PY{o}{=} \PY{k+kp}{sapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} test\PYZus{}pred \PY{o}{\PYZpc{}*\PYZpc{}} mdl\PY{o}{\PYZdl{}}gammas\PYZus{}hat\PY{p}{[}\PY{p}{,}\PY{p}{(}\PY{p}{(}x\PY{l+m}{\PYZhy{}1}\PY{p}{)}\PY{o}{*}\PY{k+kp}{dim}\PY{p}{(}test\PYZus{}pred\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}\PY{p}{(}x\PY{o}{*}\PY{k+kp}{dim}\PY{p}{(}test\PYZus{}pred\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+             Z\PYZus{}hat\PYZus{}test\PYZus{}second\PYZus{}eq\PYZus{}cor\PYZus{}tca \PY{o}{=} \PY{k+kp}{diag}\PY{p}{(}cor\PY{p}{(}test\PYZus{}Z\PY{p}{,}Z\PYZus{}hat\PYZus{}test\PYZus{}second\PYZus{}eq\PYZus{}tca\PY{p}{)}\PY{p}{)}
+             
+             \PY{c+c1}{\PYZsh{} Lasso bulk data regression \PYZlt{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZgt{} X only}
+             glmnet.mdl.X.cv \PY{o}{\PYZlt{}\PYZhy{}} cv.glmnet\PY{p}{(}x\PY{o}{=}train\PYZus{}X\PY{p}{,}y\PY{o}{=}\PY{k+kp}{t}\PY{p}{(}train\PYZus{}G\PY{p}{)}\PY{p}{,}nfolds\PY{o}{=}\PY{l+m}{5}\PY{p}{)}
+             glmnet.mdl.X \PY{o}{\PYZlt{}\PYZhy{}} glmnet\PY{p}{(}x\PY{o}{=}train\PYZus{}X\PY{p}{,}y\PY{o}{=}\PY{k+kp}{t}\PY{p}{(}train\PYZus{}G\PY{p}{)}\PY{p}{,}lambda\PY{o}{=}glmnet.mdl.X.cv\PY{o}{\PYZdl{}}lambda.min\PY{p}{)}
+             beta\PYZus{}full\PYZus{}X\PYZus{}bulk \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.numeric}\PY{p}{(}glmnet.mdl.X\PY{o}{\PYZdl{}}\PY{k+kp}{beta}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} extract non zero predictors and recorrelate}
+             predictors.X \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{colnames}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}beta\PYZus{}full\PYZus{}X\PYZus{}bulk\PY{o}{!=}\PY{l+m}{0}\PY{p}{)}\PY{p}{]}
+             beta\PYZus{}X \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.matrix}\PY{p}{(}\PY{k+kt}{c}\PY{p}{(}glmnet.mdl.X\PY{o}{\PYZdl{}}a0\PY{p}{,}\PY{k+kp}{as.matrix}\PY{p}{(}glmnet.mdl.X\PY{o}{\PYZdl{}}\PY{k+kp}{beta}\PY{p}{[}predictors.X\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             bias\PYZus{}one \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{)}\PY{l+m}{+1}
+             G\PYZus{}hat\PYZus{}train\PYZus{}lasso \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{cbind}\PY{p}{(}bias\PYZus{}one\PY{p}{,}train\PYZus{}X\PY{p}{[}\PY{p}{,}predictors.X\PY{p}{]}\PY{p}{)} \PY{o}{\PYZpc{}*\PYZpc{}} beta\PYZus{}X
+             G\PYZus{}hat\PYZus{}train\PYZus{}cor\PYZus{}bulk \PY{o}{\PYZlt{}\PYZhy{}} cor\PY{p}{(}\PY{k+kp}{t}\PY{p}{(}train\PYZus{}G\PY{p}{)}\PY{p}{,}G\PYZus{}hat\PYZus{}train\PYZus{}lasso\PY{p}{)}
+             G\PYZus{}hat\PYZus{}test\PYZus{}lasso \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{cbind}\PY{p}{(}\PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}test\PYZus{}X\PY{p}{)}\PY{p}{)}\PY{l+m}{+1}\PY{p}{,}test\PYZus{}X\PY{p}{[}\PY{p}{,}predictors.X\PY{p}{]}\PY{p}{)} \PY{o}{\PYZpc{}*\PYZpc{}} beta\PYZus{}X
+             G\PYZus{}hat\PYZus{}test\PYZus{}cor\PYZus{}bulk \PY{o}{\PYZlt{}\PYZhy{}} cor\PY{p}{(}\PY{k+kp}{t}\PY{p}{(}test\PYZus{}G\PY{p}{)}\PY{p}{,}G\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{)}
+             
+             \PY{c+c1}{\PYZsh{} cell type specific lasso}
+             corrs \PY{o}{=} \PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}
+             corrs.real \PY{o}{=} \PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}
+             corrs.beta \PY{o}{=} \PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}
+             corrs.test.real \PY{o}{=} \PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}
+             dev\PYZus{}ratio \PY{o}{=} \PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}
+             rmse\PYZus{}lasso \PY{o}{=} \PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}
+             beta\PYZus{}full\PYZus{}cell \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}nrow\PY{o}{=}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{,}ncol\PY{o}{=}\PY{k+kp}{dim}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{p}{)}
+             Z\PYZus{}hat\PYZus{}test\PYZus{}lasso \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}nrow\PY{o}{=}\PY{k+kp}{nrow}\PY{p}{(}test\PYZus{}Z\PY{p}{)}\PY{p}{,}ncol\PY{o}{=}\PY{k+kp}{ncol}\PY{p}{(}test\PYZus{}Z\PY{p}{)}\PY{p}{)}
+             \PY{k+kr}{for} \PY{p}{(}h \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+                 
+                 glmnet.mdl.cv \PY{o}{\PYZlt{}\PYZhy{}} cv.glmnet\PY{p}{(}x\PY{o}{=}train\PYZus{}X\PY{p}{,}y\PY{o}{=}Z\PYZus{}hat\PYZus{}tca\PY{p}{[[}h\PY{p}{]]}\PY{p}{,}standardize\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}alpha\PY{o}{=}\PY{l+m}{1}\PY{p}{,}nfolds\PY{o}{=}\PY{l+m}{5}\PY{p}{)}
+                 rmse\PYZus{}lasso\PY{p}{[}h\PY{p}{]} \PY{o}{=} \PY{k+kp}{sqrt}\PY{p}{(}glmnet.mdl.cv\PY{o}{\PYZdl{}}cvm\PY{p}{[}glmnet.mdl.cv\PY{o}{\PYZdl{}}lambda \PY{o}{==} glmnet.mdl.cv\PY{o}{\PYZdl{}}lambda.min\PY{p}{]}\PY{p}{)}
+                 glmnet.mdl \PY{o}{\PYZlt{}\PYZhy{}} glmnet\PY{p}{(}x\PY{o}{=}train\PYZus{}X\PY{p}{,}y\PY{o}{=}Z\PYZus{}hat\PYZus{}tca\PY{p}{[[}h\PY{p}{]]}\PY{p}{,}standardize\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}alpha\PY{o}{=}\PY{l+m}{1}\PY{p}{,}lambda\PY{o}{=}glmnet.mdl.cv\PY{o}{\PYZdl{}}lambda.min\PY{p}{)}
+                 dev\PYZus{}ratio\PY{p}{[}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} glmnet.mdl\PY{o}{\PYZdl{}}dev.ratio
+                 beta.full \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.numeric}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}\PY{k+kp}{beta}\PY{p}{)}
+                 beta\PYZus{}full\PYZus{}cell\PY{p}{[}h\PY{p}{,}\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} beta.full
+                 predictors \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{colnames}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}beta.full \PY{o}{!=} \PY{l+m}{0}\PY{p}{)}\PY{p}{]}
+                 beta\PYZus{}lasso \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.matrix}\PY{p}{(}\PY{k+kt}{c}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}a0\PY{p}{,}\PY{k+kp}{as.matrix}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}\PY{k+kp}{beta}\PY{p}{[}predictors\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 Z\PYZus{}hat\PYZus{}train\PYZus{}lasso \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{cbind}\PY{p}{(}\PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{)}\PY{l+m}{+1}\PY{p}{,}train\PYZus{}X\PY{p}{[}\PY{p}{,}predictors\PY{p}{]}\PY{p}{)} \PY{o}{\PYZpc{}*\PYZpc{}} beta\PYZus{}lasso
+                 Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{cbind}\PY{p}{(}\PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}test\PYZus{}X\PY{p}{)}\PY{p}{)}\PY{l+m}{+1}\PY{p}{,}test\PYZus{}X\PY{p}{[}\PY{p}{,}predictors\PY{p}{]}\PY{p}{)} \PY{o}{\PYZpc{}*\PYZpc{}} beta\PYZus{}lasso
+                 Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]} \PY{o}{=} \PY{k+kp}{signif}\PY{p}{(}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]}\PY{p}{,} digits \PY{o}{=} \PY{l+m}{5}\PY{p}{)}
+                 \PY{k+kr}{if}\PY{p}{(}\PY{k+kp}{sum}\PY{p}{(}beta\PYZus{}lasso\PY{p}{)}\PY{o}{==}\PY{l+m}{0} \PY{o}{|} sd\PY{p}{(}Z\PYZus{}hat\PYZus{}train\PYZus{}lasso\PY{p}{)}\PY{o}{==}\PY{l+m}{0}\PY{p}{)}\PY{p}{\PYZob{}}
+                     \PY{c+c1}{\PYZsh{} model 2 lasso forces SNPs effect to become zero.}
+                     \PY{c+c1}{\PYZsh{} If there were no predictors, then cor would be NaN. Which also means}
+                     \PY{c+c1}{\PYZsh{} no snps is correlated with Z. cor just set to 0.}
+                     corrs\PY{p}{[}h\PY{p}{]} \PY{o}{=} \PY{l+m}{0}
+                     corrs.real\PY{p}{[}h\PY{p}{]} \PY{o}{=} \PY{l+m}{0}
+                     corrs.beta\PY{p}{[}h\PY{p}{]} \PY{o}{=} \PY{l+m}{0}
+                     corrs.test.real\PY{p}{[}h\PY{p}{]} \PY{o}{=} \PY{l+m}{0}
+                 \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}}
+                     corrs\PY{p}{[}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} cor\PY{p}{(}\PY{k+kp}{t}\PY{p}{(}Z\PYZus{}hat\PYZus{}tca\PY{p}{[[}h\PY{p}{]]}\PY{p}{)}\PY{p}{,}Z\PYZus{}hat\PYZus{}train\PYZus{}lasso\PY{p}{)}
+                     corrs.real\PY{p}{[}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} cor\PY{p}{(}train\PYZus{}Z\PY{p}{[}\PY{p}{,}h\PY{p}{]}\PY{p}{,}Z\PYZus{}hat\PYZus{}train\PYZus{}lasso\PY{p}{)}
+                     corrs.beta\PY{p}{[}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} cor\PY{p}{(}\PY{k+kp}{beta}\PY{p}{[}h\PY{p}{,}\PY{p}{]}\PY{p}{,}beta.full\PY{p}{)}
+                     corrs.test.real\PY{p}{[}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} cor\PY{p}{(}test\PYZus{}Z\PY{p}{[}\PY{p}{,}h\PY{p}{]}\PY{p}{,}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]}\PY{p}{)}
+                 \PY{p}{\PYZcb{}}
+             \PY{p}{\PYZcb{}}
+             \PY{c+c1}{\PYZsh{} Precision \PYZam{} Recall for lasso}
+             Binary\PYZus{}True\PY{o}{=}\PY{p}{(}\PY{k+kp}{beta}\PY{o}{!=}\PY{l+m}{0}\PY{p}{)}
+             Binary\PYZus{}Pred\PYZus{}Lasso\PY{o}{=}\PY{p}{(}beta\PYZus{}full\PYZus{}cell\PY{o}{!=}\PY{l+m}{0}\PY{p}{)}
+             TP \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}Binary\PYZus{}True\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{o}{\PYZam{}}Binary\PYZus{}Pred\PYZus{}Lasso\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             FP \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}\PY{p}{(}\PY{o}{!}Binary\PYZus{}True\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{o}{\PYZam{}}Binary\PYZus{}Pred\PYZus{}Lasso\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             FN \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}Binary\PYZus{}True\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{o}{\PYZam{}}\PY{p}{(}\PY{o}{!}Binary\PYZus{}Pred\PYZus{}Lasso\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             precision\PYZus{}lasso \PY{o}{=} TP\PY{o}{/}\PY{p}{(}TP\PY{o}{+}FP\PY{p}{)}
+             recall\PYZus{}lasso \PY{o}{=} TP\PY{o}{/}\PY{p}{(}TP\PY{o}{+}FN\PY{p}{)}
+             
+             \PY{k+kr}{return}\PY{p}{(}\PY{k+kt}{list}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PYZsq{}}\PY{o}{=}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{Z\PYZus{}hat\PYZus{}tca\PYZsq{}}\PY{o}{=}Z\PYZus{}hat\PYZus{}tca\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{Z\PYZus{}hat\PYZus{}cor\PYZus{}tca\PYZsq{}}\PY{o}{=}Z\PYZus{}hat\PYZus{}cor\PYZus{}tca\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{beta\PYZus{}hat\PYZus{}cor\PYZus{}tca\PYZsq{}}\PY{o}{=}beta\PYZus{}hat\PYZus{}cor\PYZus{}tca\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{gamma\PYZus{}hat\PYZus{}cor\PYZus{}tca\PYZsq{}}\PY{o}{=}gamma\PYZus{}hat\PYZus{}cor\PYZus{}tca\PY{p}{,}
+                        \PY{l+s}{\PYZsq{}}\PY{l+s}{Z\PYZus{}hat\PYZus{}train\PYZus{}second\PYZus{}eq\PYZus{}cor\PYZus{}tca\PYZsq{}}\PY{o}{=}Z\PYZus{}hat\PYZus{}train\PYZus{}second\PYZus{}eq\PYZus{}cor\PYZus{}tca\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{Z\PYZus{}hat\PYZus{}test\PYZus{}second\PYZus{}eq\PYZus{}cor\PYZus{}tca\PYZsq{}}\PY{o}{=}Z\PYZus{}hat\PYZus{}test\PYZus{}second\PYZus{}eq\PYZus{}cor\PYZus{}tca\PY{p}{,}
+                        \PY{l+s}{\PYZsq{}}\PY{l+s}{G\PYZus{}hat\PYZus{}train\PYZus{}cor\PYZus{}bulk\PYZsq{}}\PY{o}{=}G\PYZus{}hat\PYZus{}train\PYZus{}cor\PYZus{}bulk\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{G\PYZus{}hat\PYZus{}test\PYZus{}cor\PYZus{}bulk\PYZsq{}}\PY{o}{=}G\PYZus{}hat\PYZus{}test\PYZus{}cor\PYZus{}bulk\PY{p}{,}
+                        \PY{l+s}{\PYZsq{}}\PY{l+s}{cor\PYZus{}lasso\PYZus{}tca\PYZsq{}}\PY{o}{=}corrs\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{cor\PYZus{}lasso\PYZus{}real\PYZus{}train\PYZsq{}}\PY{o}{=}corrs.real\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{cor\PYZus{}lasso\PYZus{}real\PYZus{}test\PYZsq{}}\PY{o}{=}corrs.test.real\PY{p}{,}
+                        \PY{l+s}{\PYZsq{}}\PY{l+s}{cor\PYZus{}beta\PYZus{}lasso\PYZus{}real\PYZsq{}}\PY{o}{=}corrs.beta\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{beta\PYZus{}hat\PYZus{}lasso\PYZsq{}}\PY{o}{=}beta\PYZus{}full\PYZus{}cell\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{dev\PYZus{}rat\PYZsq{}}\PY{o}{=}dev\PYZus{}ratio\PY{p}{,}
+                        \PY{l+s}{\PYZsq{}}\PY{l+s}{precision\PYZus{}lasso\PYZsq{}}\PY{o}{=}precision\PYZus{}lasso\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{recall\PYZus{}lasso\PYZsq{}}\PY{o}{=}recall\PYZus{}lasso\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{rmse\PYZus{}lasso\PYZsq{}}\PY{o}{=}rmse\PYZus{}lasso\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{rmse\PYZus{}tca\PYZsq{}}\PY{o}{=}rmse\PYZus{}tca\PY{p}{)}\PY{p}{)}
+         \PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} generate\PYZus{}params \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}cell\PYZus{}her\PY{o}{=}\PY{k+kc}{TRUE}\PY{p}{,}gene\PYZus{}cor\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}bulk\PYZus{}her\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}seed\PY{o}{=}\PY{l+m}{1}\PY{p}{,}N\PY{o}{=}\PY{l+m}{5000}\PY{p}{,}M\PY{o}{=}\PY{l+m}{100}\PY{p}{,}herr\PYZus{}arr\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{p}{)}\PY{p}{,}D\PY{o}{=}\PY{l+m}{20}\PY{p}{,}pslab\PY{o}{=}\PY{l+m}{0.5}\PY{p}{,}her\PY{o}{=}\PY{l+m}{0.05}\PY{p}{,}her\PYZus{}bulk\PY{o}{=}\PY{l+m}{0.8}\PY{p}{)}\PY{p}{\PYZob{}}
+             \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{1}\PY{p}{)}
+             \PY{k+kr}{if}\PY{p}{(}\PY{k+kp}{length}\PY{p}{(}herr\PYZus{}arr\PY{p}{)}\PY{o}{!=}\PY{l+m}{0}\PY{p}{)}\PY{p}{\PYZob{}}
+                 M \PY{o}{=} \PY{k+kp}{length}\PY{p}{(}herr\PYZus{}arr\PY{p}{)}
+             \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}}
+                 M \PY{o}{=} M
+             \PY{p}{\PYZcb{}}
+             K \PY{o}{=} \PY{l+m}{4}
+             N \PY{o}{=} N
+             pc\PYZus{}num \PY{o}{=} \PY{l+m}{2}
+             \PY{c+c1}{\PYZsh{} cis\PYZus{}snps\PYZus{}nums = floor(runif(M, min = 150, max = 400))}
+             D \PY{o}{=} D
+             cis\PYZus{}snps\PYZus{}nums \PY{o}{=} \PY{k+kt}{array}\PY{p}{(}D\PY{p}{,}M\PY{p}{)}
+             sigma\PYZus{}g \PY{o}{=} \PY{l+m}{0.01}
+             sigma\PYZus{}z \PY{o}{=} \PY{l+m}{0.1}
+             
+             \PY{k+kr}{if}\PY{p}{(}gene\PYZus{}cor\PY{p}{)}\PY{p}{\PYZob{}} \PY{c+c1}{\PYZsh{} varing genetic correlation across genes}
+                 corr\PYZus{}seq \PY{o}{=} \PY{k+kp}{seq}\PY{p}{(}from\PY{o}{=}\PY{l+m}{0}\PY{p}{,}to\PY{o}{=}pslab\PY{p}{,}length.out\PY{o}{=}M\PY{p}{)}
+             \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}}
+                 corr\PYZus{}seq \PY{o}{=} \PY{k+kp}{seq}\PY{p}{(}from\PY{o}{=}\PY{l+m}{0}\PY{p}{,}to\PY{o}{=}\PY{l+m}{0}\PY{p}{,}length.out\PY{o}{=}M\PY{p}{)}
+             \PY{p}{\PYZcb{}}
+             pslab \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}pslab\PY{p}{,}nrow\PY{o}{=}M\PY{p}{,}ncol\PY{o}{=}K\PY{p}{)}
+             corr\PYZus{}matrix \PY{o}{=} \PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}M\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kt}{matrix}\PY{p}{(}corr\PYZus{}seq\PY{p}{[}x\PY{p}{]}\PY{p}{,}nrow\PY{o}{=}K\PY{p}{,}ncol\PY{o}{=}K\PY{p}{)}\PY{p}{)}
+             \PY{k+kr}{for}\PY{p}{(}i \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}M\PY{p}{)}\PY{p}{\PYZob{}}
+                 \PY{k+kp}{diag}\PY{p}{(}corr\PYZus{}matrix\PY{p}{[[}i\PY{p}{]]}\PY{p}{)}\PY{o}{=}\PY{l+m}{1}
+             \PY{p}{\PYZcb{}}
+             
+             \PY{k+kr}{if}\PY{p}{(}cell\PYZus{}her\PY{p}{)}\PY{p}{\PYZob{}} \PY{c+c1}{\PYZsh{} varing heribility across genes}
+                 heritibility\PYZus{}cell\PYZus{}specific \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}K\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} herr\PYZus{}arr\PY{p}{)}\PY{p}{)}
+             \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}}
+                 heritibility\PYZus{}cell\PYZus{}specific \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}her\PY{p}{,}nrow\PY{o}{=}K\PY{p}{,}ncol\PY{o}{=}M\PY{p}{)}
+             \PY{p}{\PYZcb{}}
+             
+             \PY{k+kr}{if}\PY{p}{(}bulk\PYZus{}her\PY{p}{)}\PY{p}{\PYZob{}} \PY{c+c1}{\PYZsh{} varing bulk heritibility across genes}
+                 heritibility\PYZus{}bulk \PY{o}{=} \PY{k+kp}{seq}\PY{p}{(}from\PY{o}{=}\PY{l+m}{0.1}\PY{p}{,}to\PY{o}{=}her\PYZus{}bulk\PY{p}{,}length.out\PY{o}{=}M\PY{p}{)}
+             \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}}
+                 heritibility\PYZus{}bulk \PY{o}{=} \PY{k+kt}{array}\PY{p}{(}her\PYZus{}bulk\PY{p}{,}M\PY{p}{)}
+             \PY{p}{\PYZcb{}}
+                 
+             MAF \PY{o}{=} \PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}cis\PYZus{}snps\PYZus{}nums\PY{p}{)}\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} runif\PY{p}{(}cis\PYZus{}snps\PYZus{}nums\PY{p}{[}x\PY{p}{]}\PY{p}{,}min\PY{o}{=}\PY{l+m}{0.1}\PY{p}{,}max\PY{o}{=}\PY{l+m}{0.5}\PY{p}{)}\PY{p}{)}
+             id\PYZus{}name \PY{o}{=} \PY{k+kp}{sapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}N\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{SAMPLE\PYZsq{}}\PY{p}{,}\PY{k+kp}{toString}\PY{p}{(}x\PY{p}{)}\PY{p}{,}sep \PY{o}{=} \PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+             cell\PYZus{}type\PYZus{}name\PY{o}{=}\PY{k+kp}{sapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}K\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Cell\PYZus{}type\PYZsq{}}\PY{p}{,}x\PY{p}{,}sep \PY{o}{=} \PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+             
+             \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} generate C1 and C2}
+             male \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}rbinom\PY{p}{(}N\PY{p}{,} \PY{l+m}{1}\PY{p}{,} \PY{l+m}{0.5}\PY{p}{)}\PY{p}{,}nrow\PY{o}{=}N\PY{p}{)}
+             smoking \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}rbinom\PY{p}{(}N\PY{p}{,} \PY{l+m}{2}\PY{p}{,} \PY{l+m}{0.2}\PY{p}{)}\PY{p}{,}nrow\PY{o}{=}N\PY{p}{)}
+             smoking \PY{o}{=} \PY{p}{(}smoking \PY{o}{\PYZhy{}} \PY{k+kp}{min}\PY{p}{(}smoking\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{k+kp}{max}\PY{p}{(}smoking\PY{p}{)}\PY{p}{)}
+             age \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}\PY{k+kp}{sapply}\PY{p}{(}\PY{k+kp}{sapply}\PY{p}{(}rnorm\PY{p}{(}N\PY{p}{,}\PY{l+m}{50}\PY{p}{,}\PY{l+m}{20}\PY{p}{)}\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{floor}\PY{p}{(}x\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)}  \PY{k+kr}{if} \PY{p}{(}x\PY{o}{\PYZlt{}}\PY{l+m}{0}\PY{p}{)}\PY{p}{\PYZob{}}x\PY{o}{=}\PY{l+m}{20}\PY{p}{\PYZcb{}} \PY{k+kp}{else}\PY{p}{\PYZob{}}x\PY{o}{=}x\PY{p}{\PYZcb{}}\PY{p}{)}\PY{p}{,}nrow\PY{o}{=}N\PY{p}{)} 
+             age \PY{o}{=} \PY{p}{(}age\PY{o}{\PYZhy{}}\PY{k+kp}{min}\PY{p}{(}age\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{k+kp}{max}\PY{p}{(}age\PY{p}{)}\PY{o}{\PYZhy{}}\PY{k+kp}{min}\PY{p}{(}age\PY{p}{)}\PY{p}{)}
+             c1 \PY{o}{=} \PY{k+kp}{scale}\PY{p}{(}\PY{k+kp}{cbind}\PY{p}{(}male\PY{p}{,} smoking\PY{p}{,} age\PY{p}{)}\PY{p}{)}
+             c2 \PY{o}{=} \PY{k+kp}{scale}\PY{p}{(}\PY{k+kt}{matrix}\PY{p}{(}rnorm\PY{p}{(}N\PY{o}{*}pc\PYZus{}num\PY{p}{)}\PY{p}{,} nrow\PY{o}{=}N\PY{p}{)}\PY{p}{)}
+                                     
+             \PY{k+kp}{rownames}\PY{p}{(}c1\PY{p}{)} \PY{o}{=} id\PYZus{}name
+             \PY{k+kp}{colnames}\PY{p}{(}c1\PY{p}{)} \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{male\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{smoking\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{age\PYZsq{}}\PY{p}{)}
+             \PY{k+kp}{rownames}\PY{p}{(}c2\PY{p}{)} \PY{o}{=} id\PYZus{}name
+             \PY{k+kp}{colnames}\PY{p}{(}c2\PY{p}{)} \PY{o}{=} \PY{k+kp}{sapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}pc\PYZus{}num\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{PC\PYZsq{}}\PY{p}{,}\PY{k+kp}{toString}\PY{p}{(}x\PY{p}{)}\PY{p}{,}sep \PY{o}{=} \PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+                                   
+             p1 \PY{o}{=} \PY{k+kp}{dim}\PY{p}{(}c1\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}
+             sigma\PYZus{}gamma \PY{o}{=} \PY{k+kp}{sqrt}\PY{p}{(}\PY{p}{(}\PY{l+m}{1}\PY{o}{\PYZhy{}}heritibility\PYZus{}cell\PYZus{}specific\PY{p}{[}\PY{l+m}{1}\PY{p}{,}\PY{p}{]}\PY{o}{\PYZhy{}}sigma\PYZus{}z\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{)}\PY{o}{/}p1\PY{p}{)}
+             var\PYZus{}beta \PY{o}{=} heritibility\PYZus{}cell\PYZus{}specific\PY{p}{[}\PY{l+m}{1}\PY{p}{,}\PY{p}{]}\PY{o}{*}\PY{p}{(}p1\PY{o}{*}sigma\PYZus{}gamma\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{o}{+}sigma\PYZus{}z\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{l+m}{1}\PY{o}{\PYZhy{}}heritibility\PYZus{}cell\PYZus{}specific\PY{p}{[}\PY{l+m}{1}\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{o}{/}D
+             
+             \PY{c+c1}{\PYZsh{} cell type proportion, from the real data estimated}
+             W\PYZus{}alpha \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{l+m}{26.553683792256}\PY{p}{,}\PY{l+m}{17.6621467979005}\PY{p}{,}\PY{l+m}{4.48671525658667}\PY{p}{,}\PY{l+m}{1.56874856517803}\PY{p}{)}\PY{c+c1}{\PYZsh{},0.178797663350679)}
+             \PY{c+c1}{\PYZsh{}W\PYZus{}alpha = 50.4500920752719}
+             W\PYZus{}xsi \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{l+m}{0.526335685426257}\PY{p}{,}\PY{l+m}{0.350091468050216}\PY{p}{,}\PY{l+m}{0.088933737720289}\PY{p}{,}\PY{l+m}{0.0310950585152043}\PY{p}{,}\PY{l+m}{0.00354405028803339}\PY{p}{)}
+             \PY{k+kr}{if}\PY{p}{(}K \PY{o}{\PYZlt{}=} \PY{k+kp}{length}\PY{p}{(}W\PYZus{}alpha\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+                 W \PY{o}{=} rdirichlet\PY{p}{(}N\PY{p}{,} W\PYZus{}alpha\PY{p}{[}\PY{l+m}{1}\PY{o}{:}K\PY{p}{]}\PY{p}{)}
+             \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}} \PY{c+c1}{\PYZsh{}more cell type prop}
+                 W \PY{o}{=} rdirichlet\PY{p}{(}N\PY{p}{,} runif\PY{p}{(}K\PY{p}{,} \PY{l+m}{0}\PY{p}{,} \PY{l+m}{1}\PY{p}{)}\PY{p}{)}
+             \PY{p}{\PYZcb{}}
+             \PY{k+kp}{colnames}\PY{p}{(}W\PY{p}{)} \PY{o}{=} cell\PYZus{}type\PYZus{}name
+             \PY{k+kp}{rownames}\PY{p}{(}W\PY{p}{)} \PY{o}{=} id\PYZus{}name
+             
+             alpha \PY{o}{=} W\PYZus{}alpha
+             alpha\PYZus{}0 \PY{o}{=} \PY{k+kp}{sum}\PY{p}{(}alpha\PY{p}{)}
+             alpha\PYZus{}tilde \PY{o}{=} alpha\PY{o}{/}alpha\PYZus{}0
+             m2\PYZus{}alpha \PY{o}{=} alpha\PYZus{}tilde \PY{o}{\PYZpc{}*\PYZpc{}} \PY{k+kp}{t}\PY{p}{(}alpha\PYZus{}tilde\PY{p}{)}\PY{o}{*}alpha\PYZus{}0\PY{o}{/}\PY{p}{(}alpha\PYZus{}0\PY{l+m}{+1}\PY{p}{)}
+             \PY{k+kp}{diag}\PY{p}{(}m2\PYZus{}alpha\PY{p}{)} \PY{o}{=} alpha\PYZus{}tilde\PY{o}{*}\PY{p}{(}\PY{l+m}{1}\PY{o}{\PYZhy{}}alpha\PYZus{}tilde\PY{p}{)}\PY{o}{/}\PY{p}{(}alpha\PYZus{}0\PY{l+m}{+1}\PY{p}{)}\PY{o}{+}alpha\PYZus{}tilde\PY{o}{\PYZca{}}\PY{l+m}{2}
+             
+             \PY{k+kr}{return}\PY{p}{(}\PY{k+kt}{list}\PY{p}{(}
+                 \PY{l+s}{\PYZsq{}}\PY{l+s}{M\PYZsq{}}\PY{o}{=}M\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{K\PYZsq{}}\PY{o}{=}K\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{N\PYZsq{}}\PY{o}{=}N\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{pc\PYZus{}num\PYZsq{}}\PY{o}{=}pc\PYZus{}num\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{D\PYZsq{}}\PY{o}{=}D\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{id\PYZus{}name\PYZsq{}}\PY{o}{=}id\PYZus{}name\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{cell\PYZus{}name\PYZsq{}}\PY{o}{=}cell\PYZus{}type\PYZus{}name\PY{p}{,}
+                 \PY{l+s}{\PYZsq{}}\PY{l+s}{her\PYZsq{}}\PY{o}{=}heritibility\PYZus{}cell\PYZus{}specific\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{her\PYZus{}bulk\PYZsq{}}\PY{o}{=}heritibility\PYZus{}bulk\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{pslab\PYZsq{}}\PY{o}{=}pslab\PY{p}{,}
+                 \PY{l+s}{\PYZsq{}}\PY{l+s}{MAF\PYZsq{}}\PY{o}{=}MAF\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{c1\PYZsq{}}\PY{o}{=}c1\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{c2\PYZsq{}}\PY{o}{=}c2\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{W\PYZsq{}}\PY{o}{=}W\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{sigma\PYZus{}gamma\PYZsq{}}\PY{o}{=}sigma\PYZus{}gamma\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{sigma\PYZus{}g\PYZsq{}}\PY{o}{=}sigma\PYZus{}g\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{m2\PYZus{}alpha\PYZsq{}}\PY{o}{=}m2\PYZus{}alpha\PY{p}{,}
+                 \PY{l+s}{\PYZsq{}}\PY{l+s}{sigma\PYZus{}z\PYZsq{}}\PY{o}{=}sigma\PYZus{}z\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{beta\PYZus{}cor\PYZsq{}}\PY{o}{=}corr\PYZus{}matrix\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{var\PYZus{}beta\PYZsq{}}\PY{o}{=}var\PYZus{}beta\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{W\PYZus{}alpha\PYZsq{}}\PY{o}{=}W\PYZus{}alpha\PY{p}{[}\PY{l+m}{1}\PY{o}{:}K\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} one\PYZus{}gene \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}par\PY{p}{,}g\PY{p}{,}seed\PY{o}{=}\PY{l+m}{1}\PY{p}{)}\PY{p}{\PYZob{}}
+             \PY{k+kp}{set.seed}\PY{p}{(}seed\PY{p}{)}
+             cell\PYZus{}type \PY{o}{=} par\PY{o}{\PYZdl{}}K
+             n\PYZus{}snps \PY{o}{=} par\PY{o}{\PYZdl{}}D
+             her \PY{o}{=} par\PY{o}{\PYZdl{}}her\PY{p}{[}\PY{p}{,}g\PY{p}{]}
+             cor \PY{o}{=} par\PY{o}{\PYZdl{}}beta\PYZus{}cor\PY{p}{[[}g\PY{p}{]]}
+             pslab \PY{o}{=} par\PY{o}{\PYZdl{}}pslab\PY{p}{[}g\PY{p}{,}\PY{p}{]}
+             var\PYZus{}beta \PY{o}{=} \PY{k+kt}{array}\PY{p}{(}par\PY{o}{\PYZdl{}}var\PYZus{}beta\PY{p}{[}g\PY{p}{]}\PY{p}{,}par\PY{o}{\PYZdl{}}K\PY{p}{)}
+             
+             maf \PY{o}{=} par\PY{o}{\PYZdl{}}MAF\PY{p}{[[}g\PY{p}{]]}
+             dummy\PYZus{}var \PY{o}{=} \PY{l+m}{10}
+             
+             var\PYZus{}matrix\PY{o}{=}\PY{k+kp}{sqrt}\PY{p}{(}var\PYZus{}beta\PY{o}{\PYZpc{}*\PYZpc{}}\PY{k+kp}{t}\PY{p}{(}var\PYZus{}beta\PY{p}{)}\PY{p}{)}
+             Sigma\PYZus{}beta \PY{o}{=} cor\PY{o}{*}var\PYZus{}matrix\PY{o}{/}\PY{p}{(}\PY{l+m}{1}\PY{o}{\PYZhy{}}pslab\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m}{2}
+             \PY{k+kp}{diag}\PY{p}{(}Sigma\PYZus{}beta\PY{p}{)} \PY{o}{=} \PY{k+kp}{diag}\PY{p}{(}Sigma\PYZus{}beta\PY{p}{)} \PY{o}{*}\PY{p}{(}\PY{l+m}{1}\PY{o}{\PYZhy{}}pslab\PY{p}{)}
+             beta\PYZus{} \PY{o}{=} mvrnorm\PY{p}{(}n\PYZus{}snps\PY{p}{,}mu\PY{o}{=}\PY{k+kp}{rep}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}par\PY{o}{\PYZdl{}}K\PY{p}{)}\PY{p}{,}Sigma\PY{o}{=}Sigma\PYZus{}beta\PY{p}{,}tol\PY{o}{=}\PY{l+m}{1e\PYZhy{}4}\PY{p}{,}empirical\PY{o}{=}\PY{k+kc}{TRUE}\PY{p}{)}
+             rmask \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} rbinom\PY{p}{(}n\PYZus{}snps\PY{p}{,}\PY{l+m}{1}\PY{p}{,}\PY{l+m}{1}\PY{o}{\PYZhy{}}pslab\PY{p}{[}x\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             beta \PY{o}{=} \PY{k+kp}{t}\PY{p}{(}beta\PYZus{}\PY{p}{)}\PY{o}{*}rmask
+         
+             X \PY{o}{=} \PY{k+kp}{t}\PY{p}{(}\PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}n\PYZus{}snps\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} rbinom\PY{p}{(}par\PY{o}{\PYZdl{}}N\PY{p}{,}\PY{l+m}{2}\PY{p}{,}maf\PY{p}{[}x\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{k+kp}{colnames}\PY{p}{(}X\PY{p}{)} \PY{o}{=} \PY{k+kp}{sapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}n\PYZus{}snps\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{G\PYZsq{}}\PY{p}{,}g\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}SNP\PYZsq{}}\PY{p}{,}\PY{k+kp}{toString}\PY{p}{(}x\PY{p}{)}\PY{p}{,}sep \PY{o}{=} \PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+             \PY{k+kp}{rownames}\PY{p}{(}X\PY{p}{)} \PY{o}{=} par\PY{o}{\PYZdl{}}id\PYZus{}name
+             X \PY{o}{=} \PY{k+kp}{scale}\PY{p}{(}X\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} enforce variance of samples by adjusting sd of beta}
+             xbeta\PYZus{}var \PY{o}{=} n\PYZus{}snps\PY{o}{*}var\PYZus{}beta\PY{p}{[}\PY{l+m}{1}\PY{p}{]}
+             beta \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}
+                               \PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{beta}\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{o}{*}\PY{p}{(}\PY{k+kp}{sqrt}\PY{p}{(}xbeta\PYZus{}var\PY{p}{)}\PY{o}{/}sd\PY{p}{(}X \PY{o}{\PYZpc{}*\PYZpc{}} \PY{k+kp}{beta}\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+             mu\PYZus{}z \PY{o}{=} X\PY{o}{\PYZpc{}*\PYZpc{}}\PY{k+kp}{t}\PY{p}{(}\PY{k+kp}{beta}\PY{p}{)}
+             epsilon\PYZus{}z \PY{o}{=} \PY{k+kt}{array}\PY{p}{(}rnorm\PY{p}{(}par\PY{o}{\PYZdl{}}N\PY{o}{*}cell\PYZus{}type\PY{p}{,}mean\PY{o}{=}\PY{l+m}{0}\PY{p}{,}sd\PY{o}{=}par\PY{o}{\PYZdl{}}sigma\PYZus{}z\PY{p}{)}\PY{p}{,} \PY{k+kt}{c}\PY{p}{(}par\PY{o}{\PYZdl{}}N\PY{p}{,}cell\PYZus{}type\PY{p}{)}\PY{p}{)}
+             epsilon\PYZus{}z \PY{o}{=} \PY{k+kp}{apply}\PY{p}{(}epsilon\PYZus{}z\PY{p}{,}\PY{l+m}{2}\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} x\PY{o}{*}par\PY{o}{\PYZdl{}}sigma\PYZus{}z\PY{o}{/}sd\PY{p}{(}x\PY{p}{)}\PY{p}{)}
+             gamma\PYZus{}c1 \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} rnorm\PY{p}{(}\PY{k+kp}{dim}\PY{p}{(}par\PY{o}{\PYZdl{}}c1\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{p}{,}mean\PY{o}{=}\PY{l+m}{0}\PY{p}{,}sd\PY{o}{=}par\PY{o}{\PYZdl{}}sigma\PYZus{}gamma\PY{p}{)}\PY{p}{)}\PY{p}{)}     \PY{c+c1}{\PYZsh{} enforce variance of samples by adjusting sd of gamma\PYZus{}c1}
+             \PY{c+c1}{\PYZsh{} enforce the c1\PYZus{}gamma variance}
+             c1gamma\PYZus{}var \PY{o}{=} \PY{k+kp}{dim}\PY{p}{(}par\PY{o}{\PYZdl{}}c1\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{o}{*}\PY{p}{(}par\PY{o}{\PYZdl{}}sigma\PYZus{}gamma\PY{p}{[}g\PY{p}{]}\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m}{2}
+             gamma\PYZus{}c1 \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}
+                                \PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}cell\PYZus{}type\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} gamma\PYZus{}c1\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{o}{*}\PY{p}{(}\PY{k+kp}{sqrt}\PY{p}{(}c1gamma\PYZus{}var\PY{p}{)}\PY{o}{/}sd\PY{p}{(}par\PY{o}{\PYZdl{}}c1 \PY{o}{\PYZpc{}*\PYZpc{}} gamma\PYZus{}c1\PY{p}{[}x\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             c1\PYZus{}gamma \PY{o}{=} par\PY{o}{\PYZdl{}}c1 \PY{o}{\PYZpc{}*\PYZpc{}} \PY{k+kp}{t}\PY{p}{(}gamma\PYZus{}c1\PY{p}{)}
+         
+             Z \PY{o}{=} epsilon\PYZus{}z \PY{o}{+} mu\PYZus{}z \PY{o}{+} c1\PYZus{}gamma
+             \PY{k+kp}{rownames}\PY{p}{(}Z\PY{p}{)} \PY{o}{=} par\PY{o}{\PYZdl{}}id\PYZus{}name
+             \PY{k+kp}{colnames}\PY{p}{(}Z\PY{p}{)} \PY{o}{=} par\PY{o}{\PYZdl{}}cell\PYZus{}name
+             
+             \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} Generate Gene expressions}
+             G \PY{o}{=} \PY{k+kp}{rowSums}\PY{p}{(}\PY{p}{(}par\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{o}{*}Z\PY{p}{)}
+             epsilon\PYZus{}G \PY{o}{=} rnorm\PY{p}{(}par\PY{o}{\PYZdl{}}N\PY{p}{,}mean\PY{o}{=}\PY{l+m}{0}\PY{p}{,}sd\PY{o}{=}par\PY{o}{\PYZdl{}}sigma\PYZus{}g\PY{p}{)}
+             epsilon\PYZus{}G \PY{o}{=} epsilon\PYZus{}G\PY{o}{*}par\PY{o}{\PYZdl{}}sigma\PYZus{}g\PY{o}{/}sd\PY{p}{(}epsilon\PYZus{}G\PY{p}{)}
+             
+             \PY{c+c1}{\PYZsh{} use bulk level heritability to calculate sigma\PYZus{}gamma}
+             bulk\PYZus{}her\PYZus{}nom \PY{o}{=} \PY{k+kp}{sum}\PY{p}{(}hadamard.prod\PY{p}{(}par\PY{o}{\PYZdl{}}m2\PYZus{}alpha\PY{p}{,}var\PY{p}{(}mu\PYZus{}z\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             bulk\PYZus{}her\PYZus{}c1\PYZus{}gamma \PY{o}{=} \PY{k+kp}{sum}\PY{p}{(}hadamard.prod\PY{p}{(}par\PY{o}{\PYZdl{}}m2\PYZus{}alpha\PY{p}{,}var\PY{p}{(}c1\PYZus{}gamma\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             bulk\PYZus{}her\PYZus{}epsilon\PYZus{}z \PY{o}{=} \PY{k+kp}{sum}\PY{p}{(}hadamard.prod\PY{p}{(}par\PY{o}{\PYZdl{}}m2\PYZus{}alpha\PY{p}{,}var\PY{p}{(}epsilon\PYZus{}z\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             bulk\PYZus{}her\PYZus{}z \PY{o}{=} \PY{k+kp}{sum}\PY{p}{(}hadamard.prod\PY{p}{(}par\PY{o}{\PYZdl{}}m2\PYZus{}alpha\PY{p}{,}var\PY{p}{(}Z\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             
+             bulk\PYZus{}her\PYZus{}denom \PY{o}{=} \PY{k+kp}{sum}\PY{p}{(}hadamard.prod\PY{p}{(}par\PY{o}{\PYZdl{}}m2\PYZus{}alpha\PY{p}{,}var\PY{p}{(}Z\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{o}{+}var\PY{p}{(}epsilon\PYZus{}G\PY{p}{)}
+             bulk\PYZus{}her\PYZus{}val \PY{o}{=} par\PY{o}{\PYZdl{}}her\PYZus{}bulk\PY{p}{[}g\PY{p}{]}\PY{o}{*}her\PY{p}{[}\PY{l+m}{1}\PY{p}{]}
+             sd\PYZus{}gamma\PYZus{}c2 \PY{o}{=} \PY{k+kp}{sqrt}\PY{p}{(}\PY{p}{(}bulk\PYZus{}her\PYZus{}nom\PY{o}{/}bulk\PYZus{}her\PYZus{}val\PY{o}{\PYZhy{}}bulk\PYZus{}her\PYZus{}denom\PY{p}{)}\PY{o}{/}par\PY{o}{\PYZdl{}}pc\PYZus{}num\PY{p}{)}
+             
+             gamma\PYZus{}c2 \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}rnorm\PY{p}{(}par\PY{o}{\PYZdl{}}pc\PYZus{}num\PY{p}{,}mean\PY{o}{=}\PY{l+m}{0}\PY{p}{,}sd\PY{o}{=}sd\PYZus{}gamma\PYZus{}c2\PY{p}{)}\PY{p}{,}nrow\PY{o}{=}par\PY{o}{\PYZdl{}}pc\PYZus{}num\PY{p}{,}ncol\PY{o}{=}\PY{l+m}{1}\PY{p}{)}
+             c2gamma\PYZus{}var \PY{o}{=} par\PY{o}{\PYZdl{}}pc\PYZus{}num \PY{o}{*} \PY{p}{(}sd\PYZus{}gamma\PYZus{}c2\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m}{2}
+             gamma\PYZus{}c2 \PY{o}{=} gamma\PYZus{}c2\PY{o}{*}\PY{p}{(}\PY{k+kp}{sqrt}\PY{p}{(}c2gamma\PYZus{}var\PY{p}{)}\PY{o}{/}sd\PY{p}{(}par\PY{o}{\PYZdl{}}c2\PY{o}{\PYZpc{}*\PYZpc{}}gamma\PYZus{}c2\PY{p}{)}\PY{p}{)}
+             c2\PYZus{}gamma \PY{o}{=} par\PY{o}{\PYZdl{}}c2 \PY{o}{\PYZpc{}*\PYZpc{}} gamma\PYZus{}c2
+             
+             G \PY{o}{=} \PY{k+kp}{t}\PY{p}{(}G \PY{o}{+} epsilon\PYZus{}G \PY{o}{+} c2\PYZus{}gamma\PY{p}{)}
+             real\PYZus{}denom \PY{o}{=} var\PY{p}{(}\PY{k+kp}{t}\PY{p}{(}G\PY{p}{)}\PY{p}{)}
+             \PY{k+kp}{colnames}\PY{p}{(}G\PY{p}{)} \PY{o}{\PYZlt{}\PYZhy{}} par\PY{o}{\PYZdl{}}id\PYZus{}name
+             \PY{k+kp}{rownames}\PY{p}{(}G\PY{p}{)} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{gene\PYZsq{}}\PY{p}{,}g\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}\PYZsq{}}\PY{p}{)}
+             G \PY{o}{=} \PY{k+kp}{as.data.frame}\PY{p}{(}G\PY{p}{)}
+             
+             real\PYZus{}bulk\PYZus{}her \PY{o}{=} bulk\PYZus{}her\PYZus{}nom\PY{o}{/}\PY{p}{(}bulk\PYZus{}her\PYZus{}denom\PY{o}{+}var\PY{p}{(}c2\PYZus{}gamma\PY{p}{)}\PY{p}{)}
+                                       
+             \PY{k+kr}{return}\PY{p}{(}\PY{k+kt}{list}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{X\PYZsq{}}\PY{o}{=}X\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{beta\PYZsq{}}\PY{o}{=}\PY{k+kp}{beta}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{gamma\PYZus{}c1\PYZsq{}}\PY{o}{=}\PY{k+kp}{t}\PY{p}{(}gamma\PYZus{}c1\PY{p}{)}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{bulk\PYZus{}her\PYZsq{}}\PY{o}{=}real\PYZus{}bulk\PYZus{}her\PY{p}{,}
+                        \PY{l+s}{\PYZsq{}}\PY{l+s}{gamma\PYZus{}c2\PYZsq{}}\PY{o}{=}gamma\PYZus{}c2\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{Z\PYZsq{}}\PY{o}{=}Z\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{G\PYZsq{}}\PY{o}{=}G\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{epsilon\PYZus{}z\PYZsq{}}\PY{o}{=}epsilon\PYZus{}z\PY{p}{)}\PY{p}{)}
+         \PY{p}{\PYZcb{}}
+         \PY{c+c1}{\PYZsh{}data = one\PYZus{}gene(par=params,1)}
+\end{Verbatim}
+
+
+    \subsubsection{Power plot}\label{power-plot}
+
+more sample, power should grow as well Hold all other paramters the same
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} lmp \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function} \PY{p}{(}modelobject\PY{p}{)} \PY{p}{\PYZob{}}
+             \PY{k+kr}{if} \PY{p}{(}\PY{k+kp}{class}\PY{p}{(}modelobject\PY{p}{)} \PY{o}{!=} \PY{l+s}{\PYZdq{}}\PY{l+s}{lm\PYZdq{}}\PY{p}{)} \PY{k+kp}{stop}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Not an object of class \PYZsq{}lm\PYZsq{} \PYZdq{}}\PY{p}{)}
+             f \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{summary}\PY{p}{(}modelobject\PY{p}{)}\PY{o}{\PYZdl{}}fstatistic
+             p \PY{o}{\PYZlt{}\PYZhy{}} pf\PY{p}{(}f\PY{p}{[}\PY{l+m}{1}\PY{p}{]}\PY{p}{,}f\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{p}{,}f\PY{p}{[}\PY{l+m}{3}\PY{p}{]}\PY{p}{,}lower.tail\PY{o}{=}\PY{n+nb+bp}{F}\PY{p}{)}
+             \PY{k+kp}{attributes}\PY{p}{(}p\PY{p}{)} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+             \PY{k+kr}{return}\PY{p}{(}p\PY{p}{)}
+         \PY{p}{\PYZcb{}}
+         summary\PYZus{}statistics\PYZus{}z\PYZus{}hat\PYZus{}test\PYZus{}lasso \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}mdl\PY{p}{,}train\PYZus{}X\PY{p}{,}test\PYZus{}X\PY{p}{,}train\PYZus{}c1\PY{p}{,}test\PYZus{}c1\PY{p}{,}
+                                        train\PYZus{}G\PY{p}{,}test\PYZus{}G\PY{p}{,}train\PYZus{}Z\PY{p}{,}test\PYZus{}Z\PY{p}{,}\PY{k+kp}{beta}\PY{p}{,}
+                                        gamma\PYZus{}c1\PY{p}{,}gamma\PYZus{}c2\PY{p}{,}model\PY{o}{=}\PY{l+m}{1}\PY{p}{)}\PY{p}{\PYZob{}}
+             
+             Z\PYZus{}hat\PYZus{}tca \PY{o}{=} tensor\PY{p}{(}train\PYZus{}G\PY{p}{,}mdl\PY{p}{,}log\PYZus{}file\PY{o}{=}\PY{k+kc}{NULL}\PY{p}{,}verbose\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}debug\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{)}
+             Z\PYZus{}hat\PYZus{}test\PYZus{}lasso \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}nrow\PY{o}{=}\PY{k+kp}{nrow}\PY{p}{(}test\PYZus{}Z\PY{p}{)}\PY{p}{,}ncol\PY{o}{=}\PY{k+kp}{ncol}\PY{p}{(}test\PYZus{}Z\PY{p}{)}\PY{p}{)}
+             beta\PYZus{}full\PYZus{}cell \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}nrow\PY{o}{=}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{,}ncol\PY{o}{=}\PY{k+kp}{dim}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{p}{)}
+             \PY{k+kr}{for} \PY{p}{(}h \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+                 glmnet.mdl.cv \PY{o}{\PYZlt{}\PYZhy{}} cv.glmnet\PY{p}{(}x\PY{o}{=}train\PYZus{}X\PY{p}{,}y\PY{o}{=}Z\PYZus{}hat\PYZus{}tca\PY{p}{[[}h\PY{p}{]]}\PY{p}{,}standardize\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}alpha\PY{o}{=}\PY{l+m}{1}\PY{p}{,}nfolds\PY{o}{=}\PY{l+m}{5}\PY{p}{)}
+                 glmnet.mdl \PY{o}{\PYZlt{}\PYZhy{}} glmnet\PY{p}{(}x\PY{o}{=}train\PYZus{}X\PY{p}{,}y\PY{o}{=}Z\PYZus{}hat\PYZus{}tca\PY{p}{[[}h\PY{p}{]]}\PY{p}{,}standardize\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}alpha\PY{o}{=}\PY{l+m}{1}\PY{p}{,}lambda\PY{o}{=}glmnet.mdl.cv\PY{o}{\PYZdl{}}lambda.min\PY{p}{)}
+                 beta.full \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.numeric}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}\PY{k+kp}{beta}\PY{p}{)}
+                 beta\PYZus{}full\PYZus{}cell\PY{p}{[}h\PY{p}{,}\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} beta.full
+                 predictors \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{colnames}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}beta.full \PY{o}{!=} \PY{l+m}{0}\PY{p}{)}\PY{p}{]}
+                 beta\PYZus{}lasso \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.matrix}\PY{p}{(}\PY{k+kt}{c}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}a0\PY{p}{,}\PY{k+kp}{as.matrix}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}\PY{k+kp}{beta}\PY{p}{[}predictors\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{cbind}\PY{p}{(}\PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}test\PYZus{}X\PY{p}{)}\PY{p}{)}\PY{l+m}{+1}\PY{p}{,}test\PYZus{}X\PY{p}{[}\PY{p}{,}predictors\PY{p}{]}\PY{p}{)} \PY{o}{\PYZpc{}*\PYZpc{}} beta\PYZus{}lasso
+                 Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]} \PY{o}{=} \PY{k+kp}{signif}\PY{p}{(}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]}\PY{p}{,} digits \PY{o}{=} \PY{l+m}{5}\PY{p}{)}
+             \PY{p}{\PYZcb{}}
+             
+             \PY{k+kr}{return}\PY{p}{(}\PY{k+kt}{list}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PYZsq{}}\PY{o}{=}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{beta\PYZus{}hat\PYZus{}lasso\PYZsq{}}\PY{o}{=}beta\PYZus{}full\PYZus{}cell\PY{p}{)}\PY{p}{)}
+         \PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{c+c1}{\PYZsh{}params = generate\PYZus{}params(cont\PYZus{}her=\PYZsq{}other\PYZsq{},gene\PYZus{}cor=FALSE,seed=1,N=105000,M=1000,D=20,pslab=0.5,her=0.05)}
+         params\PYZus{}sample\PYZus{}check \PY{o}{=} generate\PYZus{}params\PY{p}{(}cell\PYZus{}her\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}gene\PYZus{}cor\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}bulk\PYZus{}her\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}
+                                  seed\PY{o}{=}\PY{l+m}{1}\PY{p}{,}N\PY{o}{=}\PY{l+m}{105000}\PY{p}{,}M\PY{o}{=}\PY{l+m}{1000}\PY{p}{,}
+                                  D\PY{o}{=}\PY{l+m}{20}\PY{p}{,}pslab\PY{o}{=}\PY{l+m}{0.5}\PY{p}{,}her\PY{o}{=}\PY{l+m}{0.05}\PY{p}{,}
+                                  her\PYZus{}bulk\PY{o}{=}\PY{l+m}{0.8}\PY{p}{)}
+         data\PYZus{}sample\PYZus{}check \PY{o}{=} \PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}M\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} one\PYZus{}gene\PY{p}{(}par\PY{o}{=}params\PYZus{}sample\PYZus{}check\PY{p}{,}x\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} sample\PYZus{}size\PYZus{}arr \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{l+m}{100}\PY{p}{,}\PY{l+m}{200}\PY{p}{,}\PY{l+m}{300}\PY{p}{,}\PY{l+m}{400}\PY{p}{,}\PY{l+m}{500}\PY{p}{)}
+        GWAS\PYZus{}size \PY{o}{=} \PY{l+m}{100000}
+        li\PYZus{}sample\PYZus{}check\PYZus{}power \PY{o}{=} \PY{k+kt}{list}\PY{p}{(}\PY{p}{)}
+        p\PYZus{}value\PYZus{}matrix \PY{o}{=} \PY{k+kt}{array}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}\PY{k+kt}{c}\PY{p}{(}\PY{k+kp}{length}\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{)}\PY{p}{,}\PY{k+kp}{length}\PY{p}{(}data\PYZus{}sample\PYZus{}check\PY{p}{)}\PY{p}{,}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}K\PY{p}{)}\PY{p}{)}
+        \PY{k+kr}{for}\PY{p}{(}sample\PYZus{}size\PYZus{}i \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+            sample\PYZus{}size \PY{o}{=} sample\PYZus{}size\PYZus{}arr\PY{p}{[}sample\PYZus{}size\PYZus{}i\PY{p}{]}
+            \PY{k+kr}{for}\PY{p}{(}g \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}data\PYZus{}sample\PYZus{}check\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+                train\PYZus{}X \PY{o}{=} \PY{p}{(}data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}X\PY{p}{)}\PY{p}{[}\PY{l+m}{1}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                test\PYZus{}X \PY{o}{=} data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}X\PY{p}{[}\PY{p}{(}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{o}{\PYZhy{}}GWAS\PYZus{}size\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{p}{,}\PY{p}{]}
+                train\PYZus{}W \PY{o}{=} params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}W\PY{p}{[}\PY{l+m}{1}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                test\PYZus{}W \PY{o}{=} params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}W\PY{p}{[}\PY{p}{(}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{o}{\PYZhy{}}GWAS\PYZus{}size\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{p}{,}\PY{p}{]}
+                train\PYZus{}G \PY{o}{=} data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}G\PY{p}{[}\PY{p}{,}\PY{l+m}{1}\PY{o}{:}sample\PYZus{}size\PY{p}{]}
+                test\PYZus{}G \PY{o}{=} data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}G\PY{p}{[}\PY{p}{,}\PY{p}{(}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{o}{\PYZhy{}}GWAS\PYZus{}size\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{p}{]}
+                train\PYZus{}c1 \PY{o}{=} params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}c1\PY{p}{[}\PY{l+m}{1}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                test\PYZus{}c1 \PY{o}{=} params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}c1\PY{p}{[}\PY{p}{(}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{o}{\PYZhy{}}GWAS\PYZus{}size\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{p}{,}\PY{p}{]}
+                train\PYZus{}c2 \PY{o}{=} params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}c2\PY{p}{[}\PY{l+m}{1}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                test\PYZus{}c2 \PY{o}{=} params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}c2\PY{p}{[}\PY{p}{(}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{o}{\PYZhy{}}GWAS\PYZus{}size\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{p}{,}\PY{p}{]}
+                train\PYZus{}Z \PY{o}{=} data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}Z\PY{p}{[}\PY{l+m}{1}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                test\PYZus{}Z \PY{o}{=} data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}Z\PY{p}{[}\PY{p}{(}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{o}{\PYZhy{}}GWAS\PYZus{}size\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}N\PY{p}{,}\PY{p}{]}
+                beta \PY{o}{=} data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}\PY{k+kp}{beta}
+                gamma\PYZus{}c1 \PY{o}{=} data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}gamma\PYZus{}c1
+                gamma\PYZus{}c2 \PY{o}{=} data\PYZus{}sample\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}gamma\PYZus{}c2
+                tca.mdl1 \PY{o}{=} tca\PY{p}{(}X\PY{o}{=}train\PYZus{}G\PY{p}{,}W\PY{o}{=}train\PYZus{}W\PY{p}{,}C1\PY{o}{=}\PY{k+kp}{cbind}\PY{p}{(}train\PYZus{}X\PY{p}{,}train\PYZus{}c1\PY{p}{)}\PY{p}{,}verbose\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{)}
+                tca.mdl1.summary \PY{o}{=} summary\PYZus{}statistics\PYZus{}z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{(}mdl\PY{o}{=}tca.mdl1\PY{p}{,}train\PYZus{}X\PY{o}{=}train\PYZus{}X\PY{p}{,}test\PYZus{}X\PY{o}{=}test\PYZus{}X\PY{p}{,}
+                                                          train\PYZus{}c1\PY{o}{=}train\PYZus{}c1\PY{p}{,}test\PYZus{}c1\PY{o}{=}test\PYZus{}c1\PY{p}{,}train\PYZus{}G\PY{o}{=}train\PYZus{}G\PY{p}{,}
+                                                          test\PYZus{}G\PY{o}{=}test\PYZus{}G\PY{p}{,}train\PYZus{}Z\PY{o}{=}train\PYZus{}Z\PY{p}{,}test\PYZus{}Z\PY{o}{=}test\PYZus{}Z\PY{p}{,}
+                                                          beta\PY{o}{=}\PY{k+kp}{beta}\PY{p}{,}gamma\PYZus{}c1\PY{o}{=}gamma\PYZus{}c1\PY{p}{,}gamma\PYZus{}c2\PY{o}{=}gamma\PYZus{}c2\PY{p}{,}model\PY{o}{=}\PY{l+m}{1}\PY{p}{)}
+                li\PYZus{}sample\PYZus{}check\PYZus{}power\PY{p}{[[}\PY{k+kp}{paste}\PY{p}{(}g\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{.\PYZsq{}}\PY{p}{,}sample\PYZus{}size\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{]]} \PY{o}{=} tca.mdl1.summary
+                r\PYZus{}testz \PY{o}{=} \PY{k+kp}{dim}\PY{p}{(}test\PYZus{}Z\PY{p}{)}\PY{p}{[}\PY{l+m}{1}\PY{p}{]}
+                c\PYZus{}testz \PY{o}{=} \PY{k+kp}{dim}\PY{p}{(}test\PYZus{}Z\PY{p}{)}\PY{p}{[}\PY{l+m}{2}\PY{p}{]}
+                Y \PY{o}{=} test\PYZus{}Z \PY{o}{+} \PY{k+kt}{matrix}\PY{p}{(}rnorm\PY{p}{(}r\PYZus{}testz\PY{o}{*}c\PYZus{}testz\PY{p}{,}mean\PY{o}{=}\PY{l+m}{0}\PY{p}{,}sd\PY{o}{=}\PY{k+kp}{sqrt}\PY{p}{(}\PY{l+m}{499}\PY{p}{)}\PY{p}{)}\PY{p}{,}nrow\PY{o}{=}r\PYZus{}testz\PY{p}{)}
+                \PY{k+kr}{for}\PY{p}{(}cell\PYZus{}i \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}K\PY{p}{)}\PY{p}{\PYZob{}}
+                    \PY{k+kr}{if}\PY{p}{(}\PY{k+kp}{length}\PY{p}{(}\PY{k+kp}{unique}\PY{p}{(}tca.mdl1.summary\PY{o}{\PYZdl{}}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}cell\PYZus{}i\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{==}\PY{l+m}{1}\PY{p}{)}\PY{p}{\PYZob{}}
+                        p\PYZus{}value\PYZus{}matrix\PY{p}{[}sample\PYZus{}size\PYZus{}i\PY{p}{,}g\PY{p}{,}cell\PYZus{}i\PY{p}{]} \PY{o}{=} \PY{l+m}{1}
+                        \PY{k+kr}{next} \PY{c+c1}{\PYZsh{}If lasso predict everything to be the same. p value breaks}
+                    \PY{p}{\PYZcb{}}
+                    lm.model \PY{o}{\PYZlt{}\PYZhy{}} lm\PY{p}{(}Y\PY{p}{[}\PY{p}{,}cell\PYZus{}i\PY{p}{]}\PY{o}{\PYZti{}}tca.mdl1.summary\PY{o}{\PYZdl{}}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}cell\PYZus{}i\PY{p}{]}\PY{p}{)}
+                    p\PYZus{}value\PYZus{}matrix\PY{p}{[}sample\PYZus{}size\PYZus{}i\PY{p}{,}g\PY{p}{,}cell\PYZus{}i\PY{p}{]} \PY{o}{=} lmp\PY{p}{(}lm.model\PY{p}{)}            
+                \PY{p}{\PYZcb{}}
+            \PY{p}{\PYZcb{}}
+            \PY{k+kp}{print}\PY{p}{(}\PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{sample size\PYZsq{}}\PY{p}{,}sample\PYZus{}size\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{done\PYZsq{}}\PY{p}{)}\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+        \PY{c+c1}{\PYZsh{}save(li\PYZus{}sample\PYZus{}check\PYZus{}power,sample\PYZus{}size\PYZus{}arr,params,data, file = \PYZdq{}power\PYZus{}check.RData\PYZdq{})}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{\PYZsh{} \PYZsh{} For changing the phenotype heritability value 499/1999.}
+        \PY{c+c1}{\PYZsh{} \PYZsh{} No need to run this if 499 up in the above cell is correct}
+        \PY{c+c1}{\PYZsh{} p\PYZus{}value\PYZus{}matrix = array(0,c(length(sample\PYZus{}size\PYZus{}arr),length(data),params\PYZdl{}K))}
+        \PY{c+c1}{\PYZsh{} for(sample\PYZus{}size\PYZus{}i in 1:length(sample\PYZus{}size\PYZus{}arr))\PYZob{}}
+        \PY{c+c1}{\PYZsh{}     sample\PYZus{}size = sample\PYZus{}size\PYZus{}arr[sample\PYZus{}size\PYZus{}i]}
+        \PY{c+c1}{\PYZsh{}     for(g in 1:length(data))\PYZob{}}
+        \PY{c+c1}{\PYZsh{}         test\PYZus{}Z = data[[g]]\PYZdl{}Z[(params\PYZdl{}N\PYZhy{}GWAS\PYZus{}size+1):params\PYZdl{}N,]}
+        \PY{c+c1}{\PYZsh{}         r\PYZus{}testz = dim(test\PYZus{}Z)[1]}
+        \PY{c+c1}{\PYZsh{}         c\PYZus{}testz = dim(test\PYZus{}Z)[2]}
+        \PY{c+c1}{\PYZsh{}         Y = test\PYZus{}Z + matrix(rnorm(r\PYZus{}testz*c\PYZus{}testz,mean=0,sd=sqrt(499)),nrow=r\PYZus{}testz)}
+        \PY{c+c1}{\PYZsh{}         Z\PYZus{}hat = li\PYZus{}sample\PYZus{}check\PYZus{}power[[paste(g,\PYZsq{}.\PYZsq{},sample\PYZus{}size,sep=\PYZsq{}\PYZsq{})]]\PYZdl{}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso}
+        \PY{c+c1}{\PYZsh{}         for(cell\PYZus{}i in 1:params\PYZdl{}K)\PYZob{}}
+        \PY{c+c1}{\PYZsh{}             if(length(unique(Z\PYZus{}hat[,cell\PYZus{}i]))==1)\PYZob{}}
+        \PY{c+c1}{\PYZsh{}                 p\PYZus{}value\PYZus{}matrix[sample\PYZus{}size\PYZus{}i,g,cell\PYZus{}i] = 1}
+        \PY{c+c1}{\PYZsh{}                 next \PYZsh{}If lasso predict everything to be the same. p value breaks}
+        \PY{c+c1}{\PYZsh{}             \PYZcb{}}
+        \PY{c+c1}{\PYZsh{}             lm.model \PYZlt{}\PYZhy{} lm(Y[,cell\PYZus{}i]\PYZti{}Z\PYZus{}hat[,cell\PYZus{}i])}
+        \PY{c+c1}{\PYZsh{}             p\PYZus{}value\PYZus{}matrix[sample\PYZus{}size\PYZus{}i,g,cell\PYZus{}i] = lmp(lm.model)            }
+        \PY{c+c1}{\PYZsh{}         \PYZcb{}}
+        \PY{c+c1}{\PYZsh{}     \PYZcb{}}
+        \PY{c+c1}{\PYZsh{}     print(paste(\PYZsq{}sample size\PYZsq{},sample\PYZus{}size,\PYZsq{}done\PYZsq{}))}
+        \PY{c+c1}{\PYZsh{} \PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} mean\PYZus{}weight \PY{o}{=} \PY{k+kp}{signif}\PY{p}{(}\PY{k+kp}{apply}\PY{p}{(}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}W\PY{p}{,}\PY{l+m}{2}\PY{p}{,}\PY{k+kp}{mean}\PY{p}{)}\PY{p}{,}digits\PY{o}{=}\PY{l+m}{3}\PY{p}{)}
+        par\PY{p}{(}mfrow\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{2}\PY{p}{)}\PY{p}{,}mar\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{4}\PY{p}{,} \PY{l+m}{3.8}\PY{p}{,} \PY{l+m}{4}\PY{p}{,} \PY{l+m}{2}\PY{p}{)} \PY{o}{+} \PY{l+m}{0.1}\PY{p}{)}
+        opts\PY{o}{=}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}cell\PYZus{}name
+        \PY{k+kr}{for}\PY{p}{(}i \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}K\PY{p}{)}\PY{p}{\PYZob{}}
+            temp \PY{o}{=} \PY{k+kt}{data.frame}\PY{p}{(}\PY{k+kp}{t}\PY{p}{(}p\PYZus{}value\PYZus{}matrix\PY{p}{[}\PY{p}{,}\PY{p}{,}i\PY{p}{]}\PY{p}{)}\PY{p}{)}
+            \PY{k+kp}{colnames}\PY{p}{(}temp\PY{p}{)} \PY{o}{=} sample\PYZus{}size\PYZus{}arr
+            heading \PY{o}{=} \PY{k+kp}{paste}\PY{p}{(}opts\PY{p}{[}i\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{mean weight\PYZsq{}}\PY{p}{,}mean\PYZus{}weight\PY{p}{[}i\PY{p}{]}\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{ \PYZsq{}}\PY{p}{)}
+            boxplot\PY{p}{(}temp\PY{p}{,}xlab\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{Training Sample Size\PYZsq{}}\PY{p}{,}ylab\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{p value\PYZsq{}}\PY{p}{,}cex.lab\PY{o}{=}\PY{l+m}{1.2}\PY{p}{,}ylim\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}\PY{l+m}{1}\PY{p}{)}\PY{p}{,}yaxs\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{r\PYZsq{}}\PY{p}{,}type\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{o\PYZsq{}}\PY{p}{,}col\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{dodgerblue\PYZsq{}}\PY{p}{)}
+            title\PY{p}{(}main\PY{o}{=}heading\PY{p}{,}font.main\PY{o}{=}\PY{l+m}{2}\PY{p}{,}cex.main\PY{o}{=}\PY{l+m}{1}\PY{p}{,}line\PY{o}{=}\PY{l+m}{1}\PY{p}{,}cex.lab\PY{o}{=}\PY{l+m}{1}\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+        mtext\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{P value on test data set VS sample size\PYZdq{}}\PY{p}{,}side\PY{o}{=}\PY{l+m}{3}\PY{p}{,}adj\PY{o}{=}\PY{l+m}{3.5}\PY{p}{,}cex\PY{o}{=}\PY{l+m}{1}\PY{p}{,}line\PY{o}{=}\PY{l+m}{23.5}\PY{p}{,}font\PY{o}{=}\PY{l+m}{2}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} p\PYZus{}threshold \PY{o}{=} \PY{l+m}{0.05}\PY{o}{/}\PY{l+m}{10000}\PY{o}{/}\PY{l+m}{4}
+        power\PYZus{}matrix \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}nrow\PY{o}{=}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}K\PY{p}{,}ncol\PY{o}{=}\PY{k+kp}{length}\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{)}\PY{p}{)}
+        \PY{k+kr}{for}\PY{p}{(}cell\PYZus{}i \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}K\PY{p}{)}\PY{p}{\PYZob{}}
+            power\PYZus{}matrix\PY{p}{[}cell\PYZus{}i\PY{p}{,}\PY{p}{]} \PY{o}{=} \PY{k+kp}{t}\PY{p}{(}\PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{)}\PY{p}{,}
+                                                         \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}p\PYZus{}value\PYZus{}matrix\PY{p}{[}x\PY{p}{,}\PY{p}{,}cell\PYZus{}i\PY{p}{]}\PY{o}{\PYZlt{}}p\PYZus{}threshold\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+        power\PYZus{}matrix \PY{o}{=} power\PYZus{}matrix\PY{o}{/}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}M
+        
+        mean\PYZus{}weight \PY{o}{=} \PY{k+kp}{signif}\PY{p}{(}\PY{k+kp}{apply}\PY{p}{(}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}W\PY{p}{,}\PY{l+m}{2}\PY{p}{,}\PY{k+kp}{mean}\PY{p}{)}\PY{p}{,}digits\PY{o}{=}\PY{l+m}{3}\PY{p}{)}
+        par\PY{p}{(}mfrow\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{2}\PY{p}{)}\PY{p}{,}mar\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{4}\PY{p}{,} \PY{l+m}{3.8}\PY{p}{,} \PY{l+m}{4}\PY{p}{,} \PY{l+m}{2}\PY{p}{)} \PY{o}{+} \PY{l+m}{0.1}\PY{p}{)}
+        opts\PY{o}{=}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}cell\PYZus{}name
+        \PY{k+kr}{for}\PY{p}{(}i \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}params\PYZus{}sample\PYZus{}check\PY{o}{\PYZdl{}}K\PY{p}{)}\PY{p}{\PYZob{}}
+            heading \PY{o}{=} \PY{k+kp}{paste}\PY{p}{(}opts\PY{p}{[}i\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{mean weight\PYZsq{}}\PY{p}{,}mean\PYZus{}weight\PY{p}{[}i\PY{p}{]}\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{ \PYZsq{}}\PY{p}{)}
+            plot\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{,}power\PYZus{}matrix\PY{p}{[}i\PY{p}{,}\PY{p}{]}\PY{p}{,}xlab\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{Sample Size\PYZsq{}}\PY{p}{,}
+                 ylab\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{power\PYZsq{}}\PY{p}{,}cex.lab\PY{o}{=}\PY{l+m}{1.2}\PY{p}{,}ylim\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}\PY{l+m}{0.1}\PY{p}{)}\PY{p}{,}yaxs\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{r\PYZsq{}}\PY{p}{,}type\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{o\PYZsq{}}\PY{p}{,}col\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{dodgerblue\PYZsq{}}\PY{p}{)}
+            title\PY{p}{(}main\PY{o}{=}heading\PY{p}{,}font.main\PY{o}{=}\PY{l+m}{2}\PY{p}{,}cex.main\PY{o}{=}\PY{l+m}{1}\PY{p}{,}line\PY{o}{=}\PY{l+m}{1}\PY{p}{,}cex.lab\PY{o}{=}\PY{l+m}{1}\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+        mtext\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Significant P value on test data set VS sample size\PYZdq{}}\PY{p}{,}side\PY{o}{=}\PY{l+m}{3}\PY{p}{,}adj\PY{o}{=}\PY{l+m}{1.7}\PY{p}{,}cex\PY{o}{=}\PY{l+m}{1}\PY{p}{,}line\PY{o}{=}\PY{l+m}{23.5}\PY{p}{,}font\PY{o}{=}\PY{l+m}{2}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} lot.title \PY{o}{\PYZlt{}\PYZhy{}} \PY{l+s}{\PYZdq{}}\PY{l+s}{Power of cell\PYZhy{}specific expression imputation\PYZdq{}}
+        x.label \PY{o}{\PYZlt{}\PYZhy{}} \PY{l+s}{\PYZdq{}}\PY{l+s}{Training sample size\PYZdq{}}
+        y.label \PY{o}{\PYZlt{}\PYZhy{}} \PY{l+s}{\PYZdq{}}\PY{l+s}{Power\PYZdq{}}
+        legend.labels \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kt}{c}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{High abundance\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Intermediate abundance\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Low abundance\PYZsq{}}\PY{p}{)}
+        
+        par\PY{p}{(}pin\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{3.5}\PY{p}{,}\PY{l+m}{3.5}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} plot size}
+        cell.type.colors \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kt}{c}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{dodgerblue\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{darkorange\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{seagreen3\PYZsq{}}\PY{p}{)}
+        marker.style \PY{o}{=} \PY{l+m}{20} 
+        smoothing.param \PY{o}{=} \PY{l+m}{0.35} \PY{c+c1}{\PYZsh{} value in (0,1], 0 is original, 1 plots a straight line}
+        
+        \PY{c+c1}{\PYZsh{}\PYZsq{} End plot parameters}
+        
+        power.plot.data.path \PY{o}{\PYZlt{}\PYZhy{}} \PY{l+s}{\PYZdq{}}\PY{l+s}{/u/scratch/b/bjew/power.plot.rds\PYZdq{}}
+        
+        power.plot.data \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{readRDS}\PY{p}{(}power.plot.data.path\PY{p}{)}
+        power.matrix \PY{o}{\PYZlt{}\PYZhy{}} power.plot.data\PY{o}{\PYZdl{}}power.matrix \PY{c+c1}{\PYZsh{} Entry \PYZob{}i,j\PYZcb{} corresponds to power for cell type i at sample size j}
+        sample.sizes \PY{o}{\PYZlt{}\PYZhy{}} power.plot.data\PY{o}{\PYZdl{}}sample.sizes \PY{c+c1}{\PYZsh{} Array of sample sizes}
+        plot\PY{p}{(}\PY{k+kc}{NULL}\PY{p}{,} xlim\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{k+kp}{min}\PY{p}{(}sample.sizes\PY{p}{)}\PY{p}{,}\PY{k+kp}{max}\PY{p}{(}sample.sizes\PY{p}{)}\PY{p}{)}\PY{p}{,} ylim\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}\PY{l+m}{1}\PY{p}{)}\PY{p}{,} ylab\PY{o}{=}y.label\PY{p}{,} xlab\PY{o}{=}x.label\PY{p}{)}
+        \PY{k+kr}{for} \PY{p}{(}i \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}\PY{k+kp}{nrow}\PY{p}{(}power.matrix\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+            smoothingSpline \PY{o}{=} smooth.spline\PY{p}{(}sample.sizes\PY{p}{,} power.matrix\PY{p}{[}i\PY{p}{,}\PY{p}{]}\PY{p}{,}
+                                            spar\PY{o}{=}smoothing.param\PY{p}{)}
+            lines\PY{p}{(}smoothingSpline\PY{p}{,} col\PY{o}{=}cell.type.colors\PY{p}{[}i\PY{p}{]}\PY{p}{)}
+            points\PY{p}{(}smoothingSpline\PY{p}{,} col\PY{o}{=}cell.type.colors\PY{p}{[}i\PY{p}{]}\PY{p}{,} pch\PY{o}{=}marker.style\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+        
+        \PY{c+c1}{\PYZsh{} font.main (1=regular, 2=bold), cex.main (size)}
+        title\PY{p}{(}plot.title\PY{p}{,}font.main\PY{o}{=}\PY{l+m}{2}\PY{p}{,}cex.main\PY{o}{=}\PY{l+m}{1}\PY{p}{)}
+        legend\PY{p}{(}legend\PY{o}{=}legend.labels\PY{p}{,}col\PY{o}{=}cell.type.colors\PY{p}{,}
+               x\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{topleft\PYZsq{}}\PY{p}{,}inset\PY{o}{=}\PY{l+m}{0.03}\PY{p}{,}lwd\PY{o}{=}\PY{l+m}{2}\PY{p}{,}cex\PY{o}{=}\PY{l+m}{0.6}\PY{p}{,}horiz\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,} bty\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{n\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsubsection{Sample Size Check}\label{sample-size-check}
+
+Correlation square is just r square, the proportion of variance
+explained
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} summary\PYZus{}statistics\PYZus{}corr \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}mdl\PY{p}{,}train\PYZus{}X\PY{p}{,}test\PYZus{}X\PY{p}{,}train\PYZus{}c1\PY{p}{,}test\PYZus{}c1\PY{p}{,}
+                                        train\PYZus{}G\PY{p}{,}test\PYZus{}G\PY{p}{,}train\PYZus{}Z\PY{p}{,}test\PYZus{}Z\PY{p}{,}\PY{k+kp}{beta}\PY{p}{,}
+                                        gamma\PYZus{}c1\PY{p}{,}gamma\PYZus{}c2\PY{p}{,}model\PY{o}{=}\PY{l+m}{1}\PY{p}{)}\PY{p}{\PYZob{}}
+             \PY{c+c1}{\PYZsh{} TCA estimation \PYZam{} parameters}
+             Z\PYZus{}hat\PYZus{}tca \PY{o}{=} tensor\PY{p}{(}train\PYZus{}G\PY{p}{,}mdl\PY{p}{,}log\PYZus{}file\PY{o}{=}\PY{k+kc}{NULL}\PY{p}{,}verbose\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}debug\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} cell type specific lasso}
+             corrs.test.real \PY{o}{=} \PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}
+             Z\PYZus{}hat\PYZus{}test\PYZus{}lasso \PY{o}{=} \PY{k+kt}{matrix}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}nrow\PY{o}{=}\PY{k+kp}{nrow}\PY{p}{(}test\PYZus{}Z\PY{p}{)}\PY{p}{,}ncol\PY{o}{=}\PY{k+kp}{ncol}\PY{p}{(}test\PYZus{}Z\PY{p}{)}\PY{p}{)}
+             \PY{k+kr}{for} \PY{p}{(}h \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}\PY{k+kp}{ncol}\PY{p}{(}mdl\PY{o}{\PYZdl{}}W\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+                 glmnet.mdl.cv \PY{o}{\PYZlt{}\PYZhy{}} cv.glmnet\PY{p}{(}x\PY{o}{=}train\PYZus{}X\PY{p}{,}y\PY{o}{=}Z\PYZus{}hat\PYZus{}tca\PY{p}{[[}h\PY{p}{]]}\PY{p}{,}standardize\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}alpha\PY{o}{=}\PY{l+m}{1}\PY{p}{,}nfolds\PY{o}{=}\PY{l+m}{5}\PY{p}{)}
+                 glmnet.mdl \PY{o}{\PYZlt{}\PYZhy{}} glmnet\PY{p}{(}x\PY{o}{=}train\PYZus{}X\PY{p}{,}y\PY{o}{=}Z\PYZus{}hat\PYZus{}tca\PY{p}{[[}h\PY{p}{]]}\PY{p}{,}standardize\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}alpha\PY{o}{=}\PY{l+m}{1}\PY{p}{,}lambda\PY{o}{=}glmnet.mdl.cv\PY{o}{\PYZdl{}}lambda.min\PY{p}{)}
+                 beta.full \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.numeric}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}\PY{k+kp}{beta}\PY{p}{)}
+                 predictors \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{colnames}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}beta.full \PY{o}{!=} \PY{l+m}{0}\PY{p}{)}\PY{p}{]}
+                 beta\PYZus{}lasso \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.matrix}\PY{p}{(}\PY{k+kt}{c}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}a0\PY{p}{,}\PY{k+kp}{as.matrix}\PY{p}{(}glmnet.mdl\PY{o}{\PYZdl{}}\PY{k+kp}{beta}\PY{p}{[}predictors\PY{p}{,}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 Z\PYZus{}hat\PYZus{}train\PYZus{}lasso \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{cbind}\PY{p}{(}\PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}train\PYZus{}X\PY{p}{)}\PY{p}{)}\PY{l+m}{+1}\PY{p}{,}train\PYZus{}X\PY{p}{[}\PY{p}{,}predictors\PY{p}{]}\PY{p}{)} \PY{o}{\PYZpc{}*\PYZpc{}} beta\PYZus{}lasso
+                 Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{cbind}\PY{p}{(}\PY{k+kt}{numeric}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}test\PYZus{}X\PY{p}{)}\PY{p}{)}\PY{l+m}{+1}\PY{p}{,}test\PYZus{}X\PY{p}{[}\PY{p}{,}predictors\PY{p}{]}\PY{p}{)} \PY{o}{\PYZpc{}*\PYZpc{}} beta\PYZus{}lasso
+                 Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]} \PY{o}{=} \PY{k+kp}{signif}\PY{p}{(}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]}\PY{p}{,} digits \PY{o}{=} \PY{l+m}{5}\PY{p}{)}
+                 \PY{k+kr}{if}\PY{p}{(}\PY{k+kp}{sum}\PY{p}{(}beta\PYZus{}lasso\PY{p}{)}\PY{o}{==}\PY{l+m}{0} \PY{o}{|} sd\PY{p}{(}Z\PYZus{}hat\PYZus{}train\PYZus{}lasso\PY{p}{)}\PY{o}{==}\PY{l+m}{0}\PY{p}{)}\PY{p}{\PYZob{}}
+                     \PY{c+c1}{\PYZsh{} model 2 lasso forces SNPs effect to become zero.}
+                     \PY{c+c1}{\PYZsh{} If there were no predictors, then cor would be NaN. Which also means}
+                     \PY{c+c1}{\PYZsh{} no snps is correlated with Z. cor just set to 0.}
+                     corrs.test.real\PY{p}{[}h\PY{p}{]} \PY{o}{=} \PY{l+m}{0}
+                 \PY{p}{\PYZcb{}}\PY{k+kp}{else}\PY{p}{\PYZob{}}
+                     corrs.test.real\PY{p}{[}h\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} cor\PY{p}{(}test\PYZus{}Z\PY{p}{[}\PY{p}{,}h\PY{p}{]}\PY{p}{,}Z\PYZus{}hat\PYZus{}test\PYZus{}lasso\PY{p}{[}\PY{p}{,}h\PY{p}{]}\PY{p}{)}
+                 \PY{p}{\PYZcb{}}
+             \PY{p}{\PYZcb{}}
+             
+             \PY{k+kr}{return}\PY{p}{(}\PY{k+kt}{list}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{cor\PYZus{}lasso\PYZus{}real\PYZus{}test\PYZsq{}}\PY{o}{=}corrs.test.real\PY{p}{)}\PY{p}{)}
+         \PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} herr\PYZus{}arr \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{l+m}{0.01}\PY{p}{,}\PY{l+m}{0.05}\PY{p}{,}\PY{l+m}{0.1}\PY{p}{,}\PY{l+m}{0.2}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}params = generate\PYZus{}params(cont\PYZus{}her=\PYZsq{}other\PYZsq{},gene\PYZus{}cor=FALSE,seed=1,N=105000,M=100,D=20,pslab=0.5,her=0.05)}
+         params\PYZus{}her\PYZus{}check \PY{o}{=} generate\PYZus{}params\PY{p}{(}cell\PYZus{}her\PY{o}{=}\PY{k+kc}{TRUE}\PY{p}{,}gene\PYZus{}cor\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}bulk\PYZus{}her\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}
+                                  seed\PY{o}{=}\PY{l+m}{1}\PY{p}{,}N\PY{o}{=}\PY{l+m}{5000}\PY{p}{,}M\PY{o}{=}\PY{l+m}{4}\PY{p}{,}herr\PYZus{}arr\PY{o}{=}herr\PYZus{}arr\PY{p}{,}
+                                  D\PY{o}{=}\PY{l+m}{20}\PY{p}{,}pslab\PY{o}{=}\PY{l+m}{0.5}\PY{p}{,}her\PY{o}{=}\PY{l+m}{0.05}\PY{p}{,}
+                                  her\PYZus{}bulk\PY{o}{=}\PY{l+m}{0.8}\PY{p}{)}
+         data\PYZus{}heritability\PYZus{}check \PY{o}{=} \PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}M\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} one\PYZus{}gene\PY{p}{(}par\PY{o}{=}params\PYZus{}her\PYZus{}check\PY{p}{,}x\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{c+c1}{\PYZsh{} do TCA\PYZhy{}TWAS for every gene, every sample size}
+         prop \PY{o}{=} \PY{l+m}{0.7}
+         sample\PYZus{}size\PYZus{}arr \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{l+m}{1500}\PY{p}{,}\PY{l+m}{2000}\PY{p}{,}\PY{l+m}{2500}\PY{p}{,}\PY{l+m}{3000}\PY{p}{,}\PY{l+m}{3500}\PY{p}{,}\PY{l+m}{4000}\PY{p}{,}\PY{l+m}{4500}\PY{p}{,}\PY{l+m}{5000}\PY{p}{)}
+         t\PYZus{}prop \PY{o}{=} \PY{k+kp}{floor}\PY{p}{(}prop\PY{o}{*}params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}N\PY{p}{)}
+         li\PYZus{}her \PY{o}{=} \PY{k+kt}{list}\PY{p}{(}\PY{p}{)}
+         \PY{k+kr}{for}\PY{p}{(}g \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}data\PYZus{}heritability\PYZus{}check\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+             \PY{k+kp}{print}\PY{p}{(}\PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{gene\PYZsq{}}\PY{p}{,}g\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}\PYZsq{}}\PY{p}{)}\PY{p}{)}
+             \PY{k+kr}{for}\PY{p}{(}sample\PYZus{}size \PY{k+kr}{in} sample\PYZus{}size\PYZus{}arr\PY{p}{)}\PY{p}{\PYZob{}}
+                 t\PYZus{}prop \PY{o}{=} \PY{k+kp}{floor}\PY{p}{(}prop\PY{o}{*}sample\PYZus{}size\PY{p}{)}
+                 train\PYZus{}X \PY{o}{=} \PY{p}{(}data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}X\PY{p}{)}\PY{p}{[}\PY{l+m}{1}\PY{o}{:}t\PYZus{}prop\PY{p}{,}\PY{p}{]}
+                 test\PYZus{}X \PY{o}{=} data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}X\PY{p}{[}\PY{p}{(}t\PYZus{}prop\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                 train\PYZus{}W \PY{o}{=} params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}W\PY{p}{[}\PY{l+m}{1}\PY{o}{:}t\PYZus{}prop\PY{p}{,}\PY{p}{]}
+                 test\PYZus{}W \PY{o}{=} params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}W\PY{p}{[}\PY{p}{(}t\PYZus{}prop\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                 train\PYZus{}G \PY{o}{=} data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}G\PY{p}{[}\PY{p}{,}\PY{l+m}{1}\PY{o}{:}t\PYZus{}prop\PY{p}{]}
+                 test\PYZus{}G \PY{o}{=} data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}G\PY{p}{[}\PY{p}{,}\PY{p}{(}t\PYZus{}prop\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}sample\PYZus{}size\PY{p}{]}
+                 train\PYZus{}c1 \PY{o}{=} params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}c1\PY{p}{[}\PY{l+m}{1}\PY{o}{:}t\PYZus{}prop\PY{p}{,}\PY{p}{]}
+                 test\PYZus{}c1 \PY{o}{=} params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}c1\PY{p}{[}\PY{p}{(}t\PYZus{}prop\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                 train\PYZus{}c2 \PY{o}{=} params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}c2\PY{p}{[}\PY{l+m}{1}\PY{o}{:}t\PYZus{}prop\PY{p}{,}\PY{p}{]}
+                 test\PYZus{}c2 \PY{o}{=} params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}c2\PY{p}{[}\PY{p}{(}t\PYZus{}prop\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                 train\PYZus{}Z \PY{o}{=} data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}Z\PY{p}{[}\PY{l+m}{1}\PY{o}{:}t\PYZus{}prop\PY{p}{,}\PY{p}{]}
+                 test\PYZus{}Z \PY{o}{=} data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}Z\PY{p}{[}\PY{p}{(}t\PYZus{}prop\PY{l+m}{+1}\PY{p}{)}\PY{o}{:}sample\PYZus{}size\PY{p}{,}\PY{p}{]}
+                 beta \PY{o}{=} data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}\PY{k+kp}{beta}
+                 gamma\PYZus{}c1 \PY{o}{=} data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}gamma\PYZus{}c1
+                 gamma\PYZus{}c2 \PY{o}{=} data\PYZus{}heritability\PYZus{}check\PY{p}{[[}g\PY{p}{]]}\PY{o}{\PYZdl{}}gamma\PYZus{}c2
+                 tca.mdl1 \PY{o}{=} tca\PY{p}{(}X\PY{o}{=}train\PYZus{}G\PY{p}{,}W\PY{o}{=}train\PYZus{}W\PY{p}{,}C1\PY{o}{=}\PY{k+kp}{cbind}\PY{p}{(}train\PYZus{}X\PY{p}{,}train\PYZus{}c1\PY{p}{)}\PY{p}{,}verbose\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{)}
+                 tca.mdl1.summary \PY{o}{=} summary\PYZus{}statistics\PYZus{}corr\PY{p}{(}mdl\PY{o}{=}tca.mdl1\PY{p}{,}train\PYZus{}X\PY{o}{=}train\PYZus{}X\PY{p}{,}test\PYZus{}X\PY{o}{=}test\PYZus{}X\PY{p}{,}
+                                                       train\PYZus{}c1\PY{o}{=}train\PYZus{}c1\PY{p}{,}test\PYZus{}c1\PY{o}{=}test\PYZus{}c1\PY{p}{,}train\PYZus{}G\PY{o}{=}train\PYZus{}G\PY{p}{,}
+                                                       test\PYZus{}G\PY{o}{=}test\PYZus{}G\PY{p}{,}train\PYZus{}Z\PY{o}{=}train\PYZus{}Z\PY{p}{,}test\PYZus{}Z\PY{o}{=}test\PYZus{}Z\PY{p}{,}
+                                                       beta\PY{o}{=}\PY{k+kp}{beta}\PY{p}{,}gamma\PYZus{}c1\PY{o}{=}gamma\PYZus{}c1\PY{p}{,}gamma\PYZus{}c2\PY{o}{=}gamma\PYZus{}c2\PY{p}{,}model\PY{o}{=}\PY{l+m}{1}\PY{p}{)}
+                 li\PYZus{}her\PY{p}{[[}\PY{k+kp}{paste}\PY{p}{(}g\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{.\PYZsq{}}\PY{p}{,}sample\PYZus{}size\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{]]} \PY{o}{=} \PY{k+kt}{list}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{s1\PYZsq{}}\PY{o}{=}tca.mdl1.summary\PY{p}{)}
+             \PY{p}{\PYZcb{}}
+         \PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1] "gene\_1"
+[1] "gene\_2"
+[1] "gene\_3"
+[1] "gene\_4"
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}38}]:} \PY{c+c1}{\PYZsh{}jpeg(\PYZdq{}pred\PYZus{}of\PYZus{}cis\PYZhy{}regulated\PYZus{}cell\PYZhy{}specific\PYZus{}expression\PYZus{}from\PYZus{}bulk\PYZus{}data.jpg\PYZdq{},width=400,height=1000)}
+         cell\PYZus{}type\PYZus{}weight\PYZus{}mean \PY{o}{=} \PY{k+kp}{signif}\PY{p}{(}\PY{k+kp}{apply}\PY{p}{(}params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}W\PY{p}{,}\PY{l+m}{2}\PY{p}{,}\PY{k+kp}{mean}\PY{p}{)}\PY{p}{,}\PY{l+m}{3}\PY{p}{)}
+         legend \PY{o}{=} \PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}\PY{l+m}{4}\PY{p}{,}\PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} \PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{cell\PYZsq{}}\PY{p}{,}x\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}w\PYZus{}\PYZsq{}}\PY{p}{,}cell\PYZus{}type\PYZus{}weight\PYZus{}mean\PY{p}{[}x\PY{p}{]}\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+         par\PY{p}{(}mfrow\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{2}\PY{p}{)}\PY{p}{)}
+         opts\PY{o}{=}\PY{k+kp}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Heritability = \PYZsq{}}\PY{p}{,}params\PYZus{}her\PYZus{}check\PY{o}{\PYZdl{}}her\PY{p}{[}\PY{l+m}{1}\PY{p}{,}\PY{p}{]}\PY{p}{)}
+         \PY{k+kr}{for}\PY{p}{(}i \PY{k+kr}{in} \PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}data\PYZus{}heritability\PYZus{}check\PY{p}{)}\PY{p}{)}\PY{p}{\PYZob{}}
+             cor\PYZus{}sample\PYZus{}size \PY{o}{=} \PY{k+kp}{do.call}\PY{p}{(}\PY{k+kp}{rbind}\PY{p}{,}\PY{k+kp}{lapply}\PY{p}{(}\PY{l+m}{1}\PY{o}{:}\PY{k+kp}{length}\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{)}\PY{p}{,}
+                                                             \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)} li\PYZus{}her\PY{p}{[[}\PY{k+kp}{paste}\PY{p}{(}i\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{.\PYZsq{}}\PY{p}{,}sample\PYZus{}size\PYZus{}arr\PY{p}{[}x\PY{p}{]}\PY{p}{,}sep\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{]]}\PY{o}{\PYZdl{}}s1\PY{o}{\PYZdl{}}cor\PYZus{}lasso\PYZus{}real\PYZus{}test\PY{p}{)}\PY{p}{)}
+             plot\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{,}cor\PYZus{}sample\PYZus{}size\PY{p}{[}\PY{p}{,}\PY{l+m}{1}\PY{p}{]}\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{,}xlab\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{Sample Size\PYZsq{}}\PY{p}{,}
+                  ylab\PY{o}{=}\PY{k+kp}{parse}\PY{p}{(}text\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{Correlation (r\PYZca{}2)\PYZsq{}}\PY{p}{)}\PY{p}{,}cex.lab\PY{o}{=}\PY{l+m}{0.9}\PY{p}{,}ylim\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}\PY{l+m}{0.2}\PY{p}{)}\PY{p}{,}yaxs\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{r\PYZsq{}}\PY{p}{,}type\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{o\PYZsq{}}\PY{p}{,}col\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{dodgerblue\PYZsq{}}\PY{p}{)}
+             title\PY{p}{(}main\PY{o}{=}opts\PY{p}{[}i\PY{p}{]}\PY{p}{,}font.main\PY{o}{=}\PY{l+m}{2}\PY{p}{,}cex.main\PY{o}{=}\PY{l+m}{1}\PY{p}{,}line\PY{o}{=}\PY{l+m}{1}\PY{p}{,}cex.lab\PY{o}{=}\PY{l+m}{1}\PY{p}{)}
+             lines\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{,}cor\PYZus{}sample\PYZus{}size\PY{p}{[}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{,}col\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{black\PYZsq{}}\PY{p}{,}type\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{o\PYZsq{}}\PY{p}{)}
+             lines\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{,}cor\PYZus{}sample\PYZus{}size\PY{p}{[}\PY{p}{,}\PY{l+m}{3}\PY{p}{]}\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{,}col\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{purple\PYZsq{}}\PY{p}{,}type\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{o\PYZsq{}}\PY{p}{)}
+             lines\PY{p}{(}sample\PYZus{}size\PYZus{}arr\PY{p}{,}cor\PYZus{}sample\PYZus{}size\PY{p}{[}\PY{p}{,}\PY{l+m}{4}\PY{p}{]}\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{,}col\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{blue\PYZsq{}}\PY{p}{,}type\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{o\PYZsq{}}\PY{p}{)}
+         \PY{p}{\PYZcb{}}
+         mtext\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Prediction of cis\PYZhy{}regulated cell\PYZhy{}specfic expression from bulk data\PYZdq{}}\PY{p}{,}side\PY{o}{=}\PY{l+m}{3}\PY{p}{,}adj\PY{o}{=}\PY{l+m}{1.1}\PY{p}{,}cex\PY{o}{=}\PY{l+m}{1}\PY{p}{,}line\PY{o}{=}\PY{l+m}{24}\PY{p}{,}font\PY{o}{=}\PY{l+m}{2}\PY{p}{)}
+         par\PY{p}{(}mfrow\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{1}\PY{p}{)}\PY{p}{,}mar\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{0}\PY{p}{,}\PY{l+m}{0}\PY{p}{,}\PY{l+m}{0}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{)}
+         plot\PY{p}{(}\PY{l+m}{1}\PY{p}{,}type\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{n\PYZsq{}}\PY{p}{,}axes\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,}xlab\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{,}ylab\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         legend\PY{p}{(}x\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{top\PYZsq{}}\PY{p}{,}inset\PY{o}{=}\PY{l+m}{0}\PY{p}{,}legend\PY{o}{=}legend\PY{p}{,}
+                col\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{dodgerblue\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{black\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{purple\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{blue\PYZsq{}}\PY{p}{)}\PY{p}{,}lwd\PY{o}{=}\PY{l+m}{2}\PY{p}{,}cex\PY{o}{=}\PY{l+m}{0.7}\PY{p}{,}horiz\PY{o}{=}\PY{k+kc}{TRUE}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}dev.off()}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

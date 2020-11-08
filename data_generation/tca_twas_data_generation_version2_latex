@@ -1,0 +1,249 @@
+\documentclass{article}
+\usepackage{esvect}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+ 
+\usepackage{comment}
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{cite.bib}
+
+\title{TCA-TWAS Data Simulation with heritability and genetics correlation}
+\author{Gary Qiurui Ma; qmaai@connect.ust.hk}
+\date{August 2019}
+\newcommand{\matr}[1]{\mathbf{#1}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\SC}{SC}
+\begin{document}
+
+\maketitle
+
+\section{TCA model}
+Let $\vv{Z_{hj}} \in R^N$ be the gene expression level of individual $i\in\{1,...,N\}$ at cell type $h$ at gene $j$, and let $\matr{X}\in R^{N\times m}$ be the matrix of cis-snps for gene $j$, $\matr{C^1}\in R^{N\times p_1}$ be a matrix of $p_1$ covariates. We assume:
+$$\vv{Z_{hj}}=\matr{X}\vv{\beta_{hj}}+\matr{C^1}\vv{\gamma_{hj}}+\vv{\epsilon_z}$$
+where $\vv{\beta_{hj}}\in R^{m}$ is a length $m$ vector of corresponding effect size for the snps on gene expression for cell type $h$, $\vv{\gamma_{hj}}\in R^{p_1}$ is the effect size for covariates.\newline
+We assume the bulk level gene expression for gene $j$ as the convolved signals from $k$ cell types. Denoting $\matr{W}\in R^{N\times K}$ as a matrix of cell-type proportions of $K$ cell types for each of the $N$ individuals, and $\matr{C^2}\in R^{N\times p_2}$ as a matrix of $p_2$ global covariates potentially affecting the observed bulk level gene expression levels, TCA model for $\vv{G_j}$, the observed bulk level gene expression level of the $j$-th gene, is as follows:
+$$\vv{G_j}=\matr{C^2}\delta_j+\sum_{h=1}^{k}\vv{W_h}\odot{\vv{Z_{hj}}}+\vv{\epsilon_{g}}$$ $$\epsilon_g\sim \mathcal{N}(0,\tau^2)$$
+$\odot$ is the element wise multiplication (hadarmard product) between two vectors.
+\section{Data Simulations}
+\subsection{SNPs data generation}
+For each gene $j$, the $d$-th snps cis-snps data for person $i$ is sampled with binomial distribution $X_{id}\sim \matr{B}(2,MAF_{d}), d\in\{1...m\}$. This $X$ is further centered and scaled to unit variance and mean zero. The $\matr{C^1}$ is generated from random normal distribution with unit variance.\newline
+For the effect size of snps on cell type specific gene expression, we enforce a sparsity with $pslab$, the percentage of zero effect sizes. The following equation depicts how $\beta$ is generated: $$\beta_{hj}^i\sim\\Bernoulli(1-pslab)\times\ \mathcal{N}(0,\sigma_{j\beta}^{2}), i\in\{1...m\}$$
+But notice that in this way the $\beta$ are independently drawn.\newline\newline
+Similarly, we have each element of $\vv{\gamma_{hj}}$ drawn from a normal distribution $\mathcal{N}(0,\sigma_{j\gamma}^2)$
+But notice that both the $\sigma_{j\beta}^{2}$ and $\sigma_{j\gamma}^2$ is computed from gene heritability and $\sigma_z$ in $\epsilon_z\sim\mathcal{N}(0,\sigma_z^2)$. The detailed process is described in the second section.
+$C^2$ is generated in a similar way with $C^1$, scaled and centered, whilst just like $\gamma$, $\delta$ is generated with the predefined bulk level heritability and the noise of $\epsilon_x$. The cell type weight $\matr{W}$ is sampled from Dirichlet distribution: $Dir{(K,\vv{\alpha})}, \vv{\alpha}\in\ R^K$
+\subsection{Cell Type Specific Heritability}
+With $$\vv{Z_{hj}}=\matr{X}\vv{\beta_{hj}}+\matr{C^1}\vv{\gamma_{hj}}+\vv{\epsilon_z}$$, and let $SS$ denotes sum of squared values(see Supplement for detail) of a set of data points which is stored in a vector, where each element inside a vector is treated as a sample drawn from one same random variable, we define the cell-type specific heritability of the genes as follows:
+$$h^2_{snps}=\frac{SS(\matr{X}\vv{\beta_{hj}})}{SS(\vv{Z_{hj}})}=\frac{SS(\matr{X}\vv{\beta_{hj}})}{SS(\matr{X}\vv{\beta_{hj}})+SS(\matr{C^1}\vv{\gamma_{hj}})+SS(\vv{\epsilon_z})}$$
+Taking a closer look at the nominator, we have
+\begin{align}
+    SS(\matr{X}\vv{\beta_{hj}}) &= (\matr{X}\vv{\beta_{hj}}-E[\matr{X}\vv{\beta_{hj}}])^T(\matr{X}\vv{\beta_{hj}}-E[\matr{X}\vv{\beta_{hj}}])\\
+    &= (\matr{X}\vv{\beta_{hj}})^T(\matr{X}\vv{\beta_{hj}})\\
+    &= \vv{\beta_{hj}}^T\matr{X}^T\matr{X}\vv{\beta_{hj}}\\
+    &= \tr({\matr{X}}\vv{\beta_{hj}}\vv{\beta_{hj}}^T\matr{X}^T)\\
+    &= \sum_{i=1}^{N}\sum_{j=1}^{m}X_{ij}^2\vv{\beta_{hj}^2}\\
+    &= \sum_{j=1}^{m}\vv{\beta_{hj}^2}\sum_{i=1}^{N}X_{ij}^2\\
+    &= N\sum_{j=1}^{m}\vv{\beta_{hj}^2}\\
+    &= Nm\Var{(\beta^{i}_{hj})}
+\end{align}
+Equation (2) stems from the fact that $X$ is scaled and centered while $\vv{\beta_{hj}}$ is centered at zero as well. Equation (7) arises as $$\frac{\sum_{i=1}^{N}X_{ij}^2-\frac{(\sum_{q=1}^{N}X_{qi})^2}{N}}{N-1} \approx 1$$ is estimation of variance using samples.\newline
+Similarly, we could also calculate the denominator into the following:
+
+\begin{align*}
+    SS(\matr{C^1}\vv{\gamma_{hj}})&=Np_1\sigma^2_{hj}\\
+    SS(\vv{\epsilon_z})&=N\sigma_z^2
+\end{align*}
+Thus we have the following:
+\begin{align*}
+    h^2_{snps} &=\frac{SS(\matr{X}\vv{\beta_{hj}})}{SS(\matr{X}\vv{\beta_{hj}})+SS(\matr{C^1}\vv{\gamma_{hj}})+SS(\vv{\epsilon_z})}\\
+    &= \frac{m\Var(\beta_{hj})}{m\Var(\beta_{hj})+p_1\sigma^2_{hj}+\sigma_z^2}
+\end{align*}
+If we enforce the parameters in the denominator to one, namely by setting $$m\Var(\beta^{i}_{hj})+p_1\sigma^2_{hj}+\sigma_z^2=1$$ we set the variance of cell-type specific gene expression level to 1. Combining the result of this procedure and the previous assumption of how we generate $beta$,
+\begin{gather*}
+    \Var{\beta^{i}_{hj}} = \frac{h^2_{snps}}{m}\\
+    SS{(\matr{X}\vv{\beta_{hj}})}= Nh^2_{snps}\\
+    \beta_{hj}^i \sim B(1-pslab)\times\ \mathcal{N}(0,\sigma_{j\beta}^{2}), i\in\{1...m\}
+\end{gather*}
+we therefore set
+\begin{align*}
+    \sigma_{\beta_{hj}} &= \sqrt{\frac{h^2_{snps}}{(1-pslab)\times m}}\\
+    \sigma_{\gamma_{hj}} &= \sqrt{\frac{1-h^2_{snps}-\sigma^2_z}{p_1}}
+\end{align*}
+To summarize, for gene expressions for one gene and one cell type, we specify $h^2_{snps}$, $\sigma_z$, $pslab$ and calculate $\sigma_{\beta_{hj}}$, $\sigma_{\gamma_{hj}}$. In practice, we set the former three values the same across all the four cell-types for one gene, and change the $h^2_{snps}$ across genes.
+\subsection{Genetics Correlation Simulation}
+According to Rheenen, et.al \cite{vanRheenen2019},for gene $j$-th expression $\vv{Z_{1j}}$, $\vv{Z_{2j}}$ for two cell types, we have 
+\begin{align*}
+    \vv{Z_{1j}}=\matr{X}\vv{\beta_{1j}}+\matr{C^1}\vv{\gamma_{1j}}+\vv{\epsilon_z}\\
+    \vv{Z_{2j}}=\matr{X}\vv{\beta_{2j}}+\matr{C^1}\vv{\gamma_{2j}}+\vv{\epsilon_z}
+\end{align*}
+the genetic correlation $\rho$ of the two gene expression level is defined as $$\rho^{12}_{j} = \frac{SS{(\matr{X}\vv{\beta_{1j}},\matr{X}\vv{\beta_{2j}})}}{\sqrt{SS{(\matr{X}\vv{\beta_{1j}})}SS{(\matr{X}\vv{\beta_{2j}}})}}$$ where $SS{(x,y)}$ denotes $\sum_{i=1}^{N}(x_i-\overline{x})(y_i-\overline{y})$. Following the assumption in section above (variance of cell-type specific gene expression equals to 1, $SS{(\matr{X}\vv{\beta_{hj}})}=Nh^2_{snps}$), we have 
+\begin{align*}
+    \rho^{12}_{j} &= \frac{SS{(\matr{X}\vv{\beta_{1j}},\matr{X}\vv{\beta_{2j}})}}{Nh^2_{snps}}\\
+    &= \frac{1}{Nh^2_{snps}}(\matr{X}\vv{\beta_{1j}}-E[\matr{X}\vv{\beta_{1j}}])^T(\matr{X}\vv{\beta_{2j}}-E[\matr{X}\vv{\beta_{2j}}])\\
+    &= \frac{1}{Nh^2_{snps}}\vv{\beta_{1j}}^T\matr{X}^T\matr{X}\vv{\beta_{2j}}\\
+    &= \frac{1}{Nh^2_{snps}}\tr({\matr{X}}\vv{\beta_{2j}}\vv{\beta_{1j}}^T\matr{X}^T)\\
+    &= \frac{1}{Nh^2_{snps}}\sum_{p=1}^{N}\sum_{q=1}^{m}X_{pq}^2\beta^{q}_{1j}\beta^{q}_{2j}\\
+    &= \frac{1}{Nh^2_{snps}}\sum_{q=1}^{m}{\beta^q_{1j}\beta^q_{2j}}\sum_{p=1}^{N}X_{pq}^2\\
+    &= \frac{1}{h^2_{snps}}\sum_{q=1}^{m}{\beta^q_{1j}\beta^q_{2j}}\\
+    &= \frac{m}{h^2_{snps}}\Cov(\beta^{q}_{1j},\beta^{q}_{2j})
+\end{align*}
+This naturally extends from two cell types to multiple cell-type scenarios, where each element in the correlation matrix $\matr{\rho_j}\subseteq R^{K\times K}$ satisfies that $$\rho^{h_1h_2}_{j}=\frac{m}{h^2_{snps}}\Cov(\beta^{q}_{h_1j},\beta^{q}_{h_2j})$$
+Thus we have
+\begin{align*}
+    \matr{\rho_j}&=\frac{m}{h^2_{snps}}\matr{Cov(\beta_j)}\\
+    \matr{\Cov{(\beta_j)}}&=\matr{\rho_j}\times\frac{h^2_{snps}}{m}
+\end{align*}
+where $\matr{\beta_j}$ is the effect-size matrix for cell type $j$ \newline\newline
+To set the genetic correlation, the correlation matrix of $R^{K\times K}$ has to be provided for each gene, with their diagonal value set to 1. Notice that the diagonal entries in the covariance matrix of $\beta$: $\Cov{(\beta_j)}_{ii}=\frac{h^2_{snps}}{m}$, which is exactly the same value in cell-type specific case. Also notice that in this way $\beta$ is no longer generated independently for each cell. Let $\vv{\beta_{dj}}\sim R^{K}, d \in\{1...m\}$ denotes the cell type effect for one gene on one snp. Similarly, we enforce sparsity by $$\vv{\beta_{dj}}=
+    \begin{bmatrix}
+           norm^{1}_{dj} \\
+           \vdots \\
+           norm^{K}_{dj}
+    \end{bmatrix}
+    \odot
+    \begin{bmatrix}
+           b^{1}_{dj}\\
+           \vdots \\
+           b^{K}_{dj}
+    \end{bmatrix}, and
+    \begin{bmatrix}
+           norm^{1}_{dj} \\
+           \vdots \\
+           norm^{K}_{dj}
+    \end{bmatrix}\sim \mathcal{N}(\matr{0},\matr{\Sigma^j})$$
+Where $\Sigma^j\in R^{K\times K}$, and $b^h_{dj} \sim Ber(1-pslab), h\in {1,...,K}$. Then we have
+\begin{align*}
+    \Cov{(\beta^{h_1}_{dj},\beta^{h_2}_{dj})} &= E[(\beta^{h1}_{dj}-E[\beta^{h1}_{dj}])(\beta^{h2}_{dj}-E[\beta^{h2}_{dj}])]\\
+    &= E[(\beta^{h1}_{dj})(\beta^{h2}_{dj})]\\
+    &= E[norm^{h1}_{dj}b^{h1}_{dj}norm^{h2}_{dj}b^{h2}_{dj}]\\
+    &= E[norm^{h1}_{dj}norm^{h2}_{dj}]E[b^{h1}_{dj}b^{h2}_{dj}]\\
+    &= 
+        \left\{
+            \begin{array}{rcl}
+             (1-pslab)^2\Sigma^{j}_{h_1h_2} & &{h_1\neq h_2}\\
+             (1-pslab)\Sigma^{j}_{h_1h_2} & &{h_1= h_2}\
+             \end{array}
+    \right.
+\end{align*}
+And finally
+\begin{gather*}
+    \Sigma^{j}_{h_1h_2} = 
+    \left\{
+        \begin{array}{rcl}
+        \rho^{h_1h_2}_j\times \frac{h^2_{snps}}{m(1-pslab)^2} & &{h_1\neq h_2}\\
+        \rho^{h_1h_2}_j\times \frac{h^2_{snps}}{m(1-pslab)} & &{h_1= h_2}
+        \end{array}
+    \right.
+\end{gather*}
+Notice that this is just a multivariate extension for the Cell Type Specific Heritability in section(2.2)\newline\newline 
+To summarize, in order to specify the genetics correlation between effect sizes among different cell types, a correlation matrix $\rho \in R^{K\times K}$ is to be provided. The effect size matrix $\matr{\beta}$ could then be sampled. The rest of the parameters could be generated as described in section(2.2).
+\subsection{Bulk Level Heritability}
+With cell-type specific heritability and genetic correlation between cells we could calculate bulk level gene expression heritability. Recall that $$\vv{G_j} =\matr{C^2}\delta_j+\sum_{h=1}^{K}\vv{W_h}\odot{\vv{Z_{hj}}}+\vv{\epsilon_{g}}$$ and the sum of square values $$SS{(\vv{G_j})} = SS{(\matr{C^2}\delta_j)}+SS{(\sum_{h=1}^{K}\vv{W_h}\odot{\vv{Z_{hj}}})}+SS{(\vv{\epsilon_{g}})}$$
+And the bulk level heritability is $$h^2_{bsnps}=\frac{SS(\sum_{h=1}^{K}{\matr{X}\vv{\beta_{hj}}})}{SS{(\vv{G_j})}}$$
+referring back to section(2.2) we have
+\begin{align*}
+    SS{(\matr{C^2}\delta_j)} &= Np_2\sigma^2_{\delta}\\
+    SS{(\vv{\epsilon_g})} &= N\sigma^2_g\\
+    SS{(\sum_{h=1}^{K}\vv{W_h}\odot{\vv{Z_{hj}}})} &= (\sum_{h=1}^{K}\vv{W_h}\odot{\vv{Z_{hj}}}-E[\sum_{h=1}^{K}\vv{W_h}\odot{\vv{Z_{hj}}}])^T(\sum_{h=1}^{K}\vv{W_h}\odot{\vv{Z_{hj}}}-E[\sum_{h=1}^{K}\vv{W_h}\odot{\vv{Z_{hj}}}])\\
+    &= \sum_{h=1}^{K}(\vv{W_h}\odot{\vv{Z_{hj}}})^T(\vv{W_h}\odot{\vv{Z_{hj}}})+2\sum_{h_1\neq h_2}(\vv{W_{h_1}}\odot{\vv{Z_{h_1j}}})^T(\vv{W_{h_2}}\odot{\vv{Z_{h_2j}}})
+\end{align*}
+Since we normalize the variance of cell type specific gene expression to one and centered to zero, then $E[(z^i_{hj})^2]=1$ and we have:
+\begin{align*}
+    (\vv{W_h}\odot{\vv{Z_{hj}}})^T(\vv{W_h}\odot{\vv{Z_{hj}}})&=N\Var{(w^i_hz^i_{hj})}\\
+    &= NE[(w^i_h)^2(z^i_{hj})^2] =NE[(w^i_h)^2]\\
+    &= N(\frac{\Tilde{\alpha_h}(1-\Tilde{\alpha_h})}{1+\sum_{h=1}^{K}\alpha_h}+(\frac{\alpha_h}{\sum_{h=1}^{K}\alpha_h})^2)\\
+    \Tilde{\alpha_h} &= \frac{\alpha_h}{\sum_{h=1}^{K}\alpha_{h}}\\
+    &\sim which~{} is~{} from~{} dirichlet~{} distribution
+\end{align*}
+For the cross correlation terms, we have
+\begin{align*}
+    (\vv{W_{h_1}}\odot{\vv{Z_{h_1j}}})^T(\vv{W_{h_2}}\odot{\vv{Z_{h_2j}}}) &=
+    N\Cov{(w^i_{h_1}z^{i}_{h_1j},w^i_{h_2}z^{i}_{h_2j})}\\
+    &= NE[w^i_{h_1}z^{i}_{h_1j}w^i_{h_1}z^{i}_{h_2j}]\\
+    &= NE[w^i_{h_1}w^i_{h_1}]E[z^{i}_{h_1j}z^{i}_{h_2j}]\\
+    E[w^i_{h_1}w^i_{h_1}] &= \frac{-\Tilde{\alpha}_{h_1}\Tilde{\alpha}_{h_2}}{\sum_{h=1}^{K}\alpha_{h}+1}
+    +\frac{\alpha_{h_1}\alpha_{h_2}}{(\sum_{h=1}^{K}\alpha_h)^2}\\
+    E[z^{i}_{h_1j}z^{i}_{h_2j}]&= E[(\epsilon^{i}_{h_1j}+(\vv{C^i_{1}})^T\vv{\gamma_{h_1j}}+(\vv{X^{i}})^T\vv{\beta_{h_1j}})(\epsilon^{i}_{h_2j}+(\vv{C^i_{1}})^T\vv{\gamma_{h_2j}}+(\vv{X^{i}})^T\vv{\beta_{h_2j}})]\\
+    &= E[(\vv{C^i_{1}})^T\vv{\gamma_{h_1j}}(\vv{C^i_{1}})^T\vv{\gamma_{h_2j}}]+E[(\vv{X^{i}})^T\vv{\beta_{h_1j}}(\vv{X^{i}})^T\vv{\beta_{h_2j}}]\\
+    &= E[tr((\vv{C^i_{1}})^T\vv{\gamma_{h_1j}}\vv{\gamma_{h_2j}}^T\vv{C^i_{1}})]+E[tr((\vv{X^{i}})^T\vv{\beta_{h_1j}}\vv{\beta_{h_2j}}^T\vv{X^{i}})]\\
+    &= tr[E[\vv{C^i_{1}}\vv{C^i_{1}}^T]E[\vv{\gamma_{h_1j}}\vv{\gamma_{h_2j}}^T]]+tr[E[\vv{X^{i}}\vv{X^{i}}^T]E[\vv{\beta_{h_1j}}\vv{\beta_{h_2j}}^T]]
+\end{align*}
+Where $\vv{C^i_{1}}\in R^{p_1}$, $\vv{X^i}\in R^{m}$ are all normalized vectors whose elements are independent of each other. Thus, $E[\vv{C^i_{1}}\vv{C^i_{1}}^T]=\matr{1}$, $E[\vv{X^i}\vv{X^i}^T]=\matr{1}$. Also we have $\vv{\gamma_{h_1j}}\in R^{p_1}$ where each element are independently sampled, which leads to $E[\vv{\gamma_{h_1j}}\vv{\gamma_{h_2j}}^T]=\matr{0}$. But notice because $p_1$ is typically very small, the actual generated data could have a non-zero value for this term. As introduced in section (2.3), $\matr{\beta_j}\in R^{m\times K}$ is generated as $n$ samples for hadamard product between a multivariate normal distribution of dimension $K$ and $K$ Bernoulli distribution. Therefore we have 
+\begin{equation*}
+    E[\beta^{p}_{h_1j}\beta^{q}_{h_2j}]=\\
+    \left\{
+            \begin{array}{rcl}
+             0 & &{p\neq q}\\
+             \Cov(\matr{\beta_j})_{h_1h_2} & &{p=q}
+             \end{array}
+    \right.
+\end{equation*}
+Combining all the above preliminary results, we have 
+\begin{align*}
+    E[z^{i}_{h_1j}z^{i}_{h_2j}]&=
+    tr[E[\vv{C^i_{1}}\vv{C^i_{1}}^T]E[\vv{\gamma_{h_1j}}\vv{\gamma_{h_2j}}^T]]+tr[E[\vv{X^{i}}\vv{X^{i}}^T]E[\vv{\beta_{h_1j}}\vv{\beta_{h_2j}}^T]]\\
+    &= tr[\matr{1}\times \matr{0}]+tr[\matr{1}\times E[\beta^{p}_{h_1j}\beta^{q}_{h_2j}]]\\
+    &= m\Cov{(\beta_j)}_{h_1h_2}
+\end{align*}
+Bring all the results back to the original equation, we have
+\begin{align*}
+    SS{(\sum_{h=1}^{K}\vv{W_h}\odot{\vv{Z_{hj}}})} &= \sum_{h=1}^{K}(\vv{W_h}\odot{\vv{Z_{hj}}})^T(\vv{W_h}\odot{\vv{Z_{hj}}})+2\sum_{h_1\neq h_2}(\vv{W_{h_1}}\odot{\vv{Z_{h_1j}}})^T(\vv{W_{h_2}}\odot{\vv{Z_{h_2j}}})\\
+    &= N\frac{\sum_{h=1}^{K}\Tilde{\alpha_h}(1-\Tilde{\alpha_h})}{1+\sum_{h=1}^{K}\alpha_h}+N\frac{\sum_{h=1}^{K}\alpha_h^2}{(\sum_{h=1}^{K}\alpha_h)^2}
+    \\&+2Nm\sum_{h_1\neq h_2}(\frac{-\Tilde{\alpha}_{h_1}\Tilde{\alpha}_{h_2}}{\sum_{h=1}^{K}\alpha_{h}+1}+\frac{\alpha_{h_1}\alpha_{h_2}}{(\sum_{h=1}^{K}\alpha_h)^2})\times
+    \Cov{(\beta_j)}_{h_1h_2}
+    \\\Tilde{\alpha_h} &= \frac{\alpha_h}{\sum_{h=1}^{K}\alpha_{h}}
+\end{align*}
+With these we could calculate $SS{(\vv{G_j})}$, the denominator of the bulk level heritability. Similarly, the numerator could be calculated as
+\begin{align*}
+    SS{(\sum_{h=1}^{K}\matr{X}\vv{\beta_{h}})} &= N\Var{(\sum_{h=1}^{K}\vv{X_i}^T\vv{\beta_{h}})}\\
+    &= N[\sum_{h=1}^{K}\Var{(\vv{X_i}^T\vv{\beta_h})}+2\sum_{h_1\neq h_2}\Cov{(\vv{X_i}^T\vv{\beta_{h1}},\vv{X_i}^T\vv{\beta_{h2}})}]\\
+    \Var{(\vv{X_i}^T\vv{\beta_{h}})} &=
+    E[tr(\vv{X_i}^T\vv{\beta_{h}}\vv{\beta_{h}}^T\vv{X_i})]\\
+    &= tr(E[\vv{X_i}\vv{X_i}^T]E[\vv{\beta_{h}}\vv{\beta_{h}}^T])\\
+    &= tr(\matr{I}\Var(\beta_h)\matr{I})\\
+    &= m\Var{(\beta_h)}\\
+    \Cov{(\vv{X_i}^T\vv{\beta_{h1}},\vv{X_i}^T\vv{\beta_{h2}})}&=
+    tr(E[\vv{X_i}\vv{X_i}^T]E[\vv{\beta_{h_1}}\vv{\beta_{h_2}}^T])\\
+    &= m\Cov{(\beta_{h_1},\beta_{h_2})}
+\end{align*}
+So the nominator of bulk level heritability will be
+$$SS{(\sum_{h=1}^{K}\matr{X}\vv{\beta_{h}})}=Nm(\sum_{h=1}^{K}\Var{(\beta_h)}+2\sum_{h_1\neq h_2}\Cov{(\beta_{h1},\beta_{h2})})$$
+Now with nomiator and denominator both calculated, bulk level heritability could be adjusted with $\sigma_{\delta}$ and $\sigma_{g}$.
+
+\section{New bulk heritability estimate}
+\setcounter{equation}{0}
+We begin with a simple case where all effects on bulk expression $G$ from $k$ cell types are either due to genetics ($X\beta$) or noise:
+\begin{equation}
+    G = \sum_{h=1}^k w_{h}Z_h + \epsilon 
+\end{equation}
+\begin{gather*}
+    w \sim \text{Dirichlet}(\alpha) \\
+    \alpha \in \mathcal{R}^k \\
+    \epsilon \sim N(0, \sigma_\epsilon) \\
+    Z_h = X\beta + \epsilon_h \\
+    \epsilon_h \sim N(0,\sigma_h) \\
+\end{gather*}
+\begin{equation}
+    \text{var}(G) = \text{var}(\sum_{h=1}^k w_{h}Z_h + \epsilon)
+\end{equation}
+\section{Supplement: sum of squares}
+\begin{align*}
+    SS{(\vv{x})} &= \sum(x_i-\Bar{x})^2\\
+    &= \sum{x^2} - 2\Bar{x}\sum{x_i} + \sum{\bar{x}^2}\\
+    &= \sum{x^2} - n\bar{x}^2\\
+    &= N\Var{(X)}\\
+    \\SS{(\vv{x},\vv{y})} &= \sum{(x_i-\bar{x})((y_i-\bar{y})}\\
+    &= \sum{x_iy_i} - n\bar{x}\bar{y}\\
+    &= N\Cov{(X,Y)}
+\end{align*}
+
+\printbibliography
+\end{document}
